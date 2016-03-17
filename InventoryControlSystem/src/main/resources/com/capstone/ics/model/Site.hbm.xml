@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 17, 2016 5:45:32 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.capstone.ics.model.Site" table="site" catalog="inventory_system" optimistic-lock="version">
+        <id name="pkSiteId" type="java.lang.Integer">
+            <column name="PK_SITE_ID" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="users" class="com.capstone.ics.model.Users" fetch="select">
+            <column name="FK_SITE_USER_ID" not-null="true" unique="true" />
+        </many-to-one>
+        <property name="siteName" type="string">
+            <column name="SITE_NAME" length="45" />
+        </property>
+        <property name="siteWebsite" type="string">
+            <column name="SITE_WEBSITE" length="100" />
+        </property>
+        <property name="siteOfficePhone" type="string">
+            <column name="SITE_OFFICE_PHONE" length="45" />
+        </property>
+        <property name="siteFax" type="string">
+            <column name="SITE_FAX" length="45" />
+        </property>
+        <property name="siteAddressLine1" type="string">
+            <column name="SITE_ADDRESS_LINE_1" length="100" />
+        </property>
+        <property name="siteAddressLine2" type="string">
+            <column name="SITE_ADDRESS_LINE_2" length="100" />
+        </property>
+        <property name="siteCity" type="string">
+            <column name="SITE_CITY" length="100" />
+        </property>
+        <property name="siteState" type="string">
+            <column name="SITE_STATE" length="2" />
+        </property>
+        <property name="siteZipCode" type="string">
+            <column name="SITE_ZIP_CODE" length="5" />
+        </property>
+        <property name="lastUpdatedBy" type="string">
+            <column name="LAST_UPDATED_BY" length="45" not-null="true" />
+        </property>
+        <property name="lastUpdatedDate" type="timestamp">
+            <column name="LAST_UPDATED_DATE" length="19" not-null="true" />
+        </property>
+        <property name="createdBy" type="string">
+            <column name="CREATED_BY" length="45" not-null="true" />
+        </property>
+        <property name="createdDate" type="string">
+            <column name="CREATED_DATE" length="45" not-null="true" />
+        </property>
+        <set name="userses" table="user_assigned_to_site" inverse="false" lazy="true" fetch="select">
+            <key>
+                <column name="FK_SITEID" not-null="true" />
+            </key>
+            <many-to-many entity-name="com.capstone.ics.model.Users">
+                <column name="FK_USERID" not-null="true" />
+            </many-to-many>
+        </set>
+        <set name="inventoryItemses" table="inventory_items" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="FK_SITE_ID" not-null="true" unique="true" />
+            </key>
+            <one-to-many class="com.capstone.ics.model.InventoryItems" />
+        </set>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 17, 2016 5:45:32 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.capstone.ics.model.JobTitles" table="job_titles" catalog="inventory_system" optimistic-lock="version">
+        <id name="pkJobTitleCode" type="java.lang.Integer">
+            <column name="PK_JOB_TITLE_CODE" />
+            <generator class="identity" />
+        </id>
+        <property name="jobTitle" type="string">
+            <column name="JOB_TITLE" length="45" />
+        </property>
+        <property name="jobTitleDescription" type="string">
+            <column name="JOB_TITLE_DESCRIPTION" length="100" />
+        </property>
+        <set name="userses" table="users" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="FK_JOB_TITLE_CODE" not-null="true" unique="true" />
+            </key>
+            <one-to-many class="com.capstone.ics.model.Users" />
+        </set>
+    </class>
+</hibernate-mapping>
