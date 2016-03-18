@@ -1,5 +1,5 @@
 package com.capstone.ics.model;
-// Generated Mar 17, 2016 5:45:32 PM by Hibernate Tools 4.3.1
+// Generated Mar 17, 2016 8:35:35 PM by Hibernate Tools 4.3.1
 
 
 
@@ -9,8 +9,8 @@ package com.capstone.ics.model;
 public class Credentials  implements java.io.Serializable {
 
 
-     private CredentialsId id;
-     private Users users;
+     private Integer credentialsId;
+     private int fkCrUserId;
      private String username;
      private String password;
      private Integer isAdministrator;
@@ -19,33 +19,31 @@ public class Credentials  implements java.io.Serializable {
     }
 
 	
-    public Credentials(CredentialsId id, Users users, String username, String password) {
-        this.id = id;
-        this.users = users;
+    public Credentials(int fkCrUserId, String username, String password) {
+        this.fkCrUserId = fkCrUserId;
         this.username = username;
         this.password = password;
     }
-    public Credentials(CredentialsId id, Users users, String username, String password, Integer isAdministrator) {
-       this.id = id;
-       this.users = users;
+    public Credentials(int fkCrUserId, String username, String password, Integer isAdministrator) {
+       this.fkCrUserId = fkCrUserId;
        this.username = username;
        this.password = password;
        this.isAdministrator = isAdministrator;
     }
    
-    public CredentialsId getId() {
-        return this.id;
+    public Integer getCredentialsId() {
+        return this.credentialsId;
     }
     
-    public void setId(CredentialsId id) {
-        this.id = id;
+    public void setCredentialsId(Integer credentialsId) {
+        this.credentialsId = credentialsId;
     }
-    public Users getUsers() {
-        return this.users;
+    public int getFkCrUserId() {
+        return this.fkCrUserId;
     }
     
-    public void setUsers(Users users) {
-        this.users = users;
+    public void setFkCrUserId(int fkCrUserId) {
+        this.fkCrUserId = fkCrUserId;
     }
     public String getUsername() {
         return this.username;
