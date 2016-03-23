@@ -5,7 +5,7 @@
  */
 package com.capstone.ics.DAO;
 
-import com.capstone.ics.model.User;
+import com.capstone.ics.model.Credentials;
 import com.capstone.ics.util.HibernateUtil;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,24 +17,24 @@ import org.hibernate.SessionFactory;
  *
  * @author Auguste C
  */
-public class UserDAO {
+public class CredentialsDAO {
 
     SessionFactory factory;
     Session session;
     org.hibernate.Transaction tx;
-    private List<User> users = new ArrayList<>();
+    private List<Credentials> users = new ArrayList<>();
 
-    public UserDAO() {
+    public CredentialsDAO() {
 
     }
 
-    public List<User> retrieveAllUsers() {
+    public List<Credentials> retrieveAllowedUsers() {
         try {
             factory = HibernateUtil.getSessionFactory();
             session = factory.openSession();
             tx = session.beginTransaction();            
             
-            Query query = session.createQuery("select u from User u");
+            Query query = session.createQuery("select u from Credentials u");
             users = query.list();
             tx.commit();
             return users;

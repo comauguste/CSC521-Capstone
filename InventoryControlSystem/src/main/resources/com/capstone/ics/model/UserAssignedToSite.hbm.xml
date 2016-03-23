@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 22, 2016 9:24:23 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.capstone.ics.model.UserAssignedToSite" table="user_assigned_to_site" catalog="inventory_system" optimistic-lock="version">
+        <composite-id name="id" class="com.capstone.ics.model.UserAssignedToSiteId">
+            <key-property name="fkUserid" type="int">
+                <column name="FK_USERID" />
+            </key-property>
+            <key-property name="fkSiteid" type="int">
+                <column name="FK_SITEID" />
+            </key-property>
+        </composite-id>
+    </class>
+</hibernate-mapping>

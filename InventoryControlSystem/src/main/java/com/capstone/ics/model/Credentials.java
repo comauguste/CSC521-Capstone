@@ -1,5 +1,5 @@
 package com.capstone.ics.model;
-// Generated Mar 17, 2016 8:35:35 PM by Hibernate Tools 4.3.1
+// Generated Mar 22, 2016 9:24:22 PM by Hibernate Tools 4.3.1
 
 
 

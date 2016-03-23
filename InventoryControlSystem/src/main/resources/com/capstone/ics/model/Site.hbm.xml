@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 22, 2016 9:24:23 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.capstone.ics.model.Site" table="site" catalog="inventory_system" optimistic-lock="version">
+        <id name="pkSiteId" type="java.lang.Integer">
+            <column name="PK_SITE_ID" />
+            <generator class="identity" />
+        </id>
+        <property name="fkSiteUserId" type="int">
+            <column name="FK_SITE_USER_ID" not-null="true" unique="true" />
+        </property>
+        <property name="siteName" type="string">
+            <column name="SITE_NAME" length="45" />
+        </property>
+        <property name="siteWebsite" type="string">
+            <column name="SITE_WEBSITE" length="100" />
+        </property>
+        <property name="siteOfficePhone" type="string">
+            <column name="SITE_OFFICE_PHONE" length="45" />
+        </property>
+        <property name="siteFax" type="string">
+            <column name="SITE_FAX" length="45" />
+        </property>
+        <property name="siteAddressLine1" type="string">
+            <column name="SITE_ADDRESS_LINE_1" length="100" />
+        </property>
+        <property name="siteAddressLine2" type="string">
+            <column name="SITE_ADDRESS_LINE_2" length="100" />
+        </property>
+        <property name="siteCity" type="string">
+            <column name="SITE_CITY" length="100" />
+        </property>
+        <property name="siteState" type="string">
+            <column name="SITE_STATE" length="2" />
+        </property>
+        <property name="siteZipCode" type="string">
+            <column name="SITE_ZIP_CODE" length="5" />
+        </property>
+        <property name="lastUpdatedBy" type="string">
+            <column name="LAST_UPDATED_BY" length="45" not-null="true" />
+        </property>
+        <property name="lastUpdatedDate" type="timestamp">
+            <column name="LAST_UPDATED_DATE" length="19" not-null="true" />
+        </property>
+        <property name="createdBy" type="string">
+            <column name="CREATED_BY" length="45" not-null="true" />
+        </property>
+        <property name="createdDate" type="string">
+            <column name="CREATED_DATE" length="45" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>
