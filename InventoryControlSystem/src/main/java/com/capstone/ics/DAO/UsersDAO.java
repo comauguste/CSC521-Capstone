@@ -54,13 +54,7 @@ public class UsersDAO {
             session = factory.openSession();
             tx = session.beginTransaction();
             Query query = session.createQuery("select u from Users u");
-            users = query.list();            
-            
-            for(Users aUser: users)
-            {
-                System.out.println(aUser.getFirstName());
-            }
-            
+            users = query.list();             
             tx.commit();
             return users;
         } catch (Exception e) {
@@ -115,10 +109,7 @@ public class UsersDAO {
             tx = session.beginTransaction();
             Query query = session.createQuery("select u from Users u");
             users = query.list();
-            //System.out.println(users);
-
-            userData = FXCollections.observableArrayList(users);
-
+            userData = FXCollections.observableArrayList(users);           
             tx.commit();
             return userData;
         } catch (Exception e) {
@@ -130,11 +121,16 @@ public class UsersDAO {
 
         return userData;
     }
+    
+    public ObservableList<Users> getPersonData()
+    {
+        return userData;
+    }
 
     public static void main(String[] args) {
         
         UsersDAO test = new UsersDAO();
-        test.getAllUsers();
+        test.getUsersData();
         
     }
 

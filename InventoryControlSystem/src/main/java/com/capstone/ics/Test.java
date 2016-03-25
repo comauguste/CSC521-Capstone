@@ -6,7 +6,9 @@
 package com.capstone.ics;
 
 import com.capstone.ics.model.Credentials;
+import com.capstone.ics.model.Users;
 import com.capstone.ics.util.HibernateUtil;
+import java.util.Date;
 import org.hibernate.Session;
 
 /**
@@ -17,11 +19,15 @@ public class Test {
     
     public static void main (String[] args)
     {
-        Credentials user = new Credentials();
-        user.setFkCrUserId(3);
-        user.setUsername("ghislain");
-        user.setPassword("1");
-        user.setIsAdministrator(1);
+        Users user = new Users();
+        user.setFirstName("test");
+        user.setLastName("test");
+        user.setEmailAddress("test@test.com");
+        user.setGender("F");
+        user.setBirthDate(new Date());
+        user.setPhoneNumber("234823402348");
+        user.setFkJobTitleCode(5);
+        user.setFkUserAddressId(8);
         
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();

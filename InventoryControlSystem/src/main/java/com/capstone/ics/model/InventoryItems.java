@@ -1,5 +1,5 @@
 package com.capstone.ics.model;
-// Generated Mar 22, 2016 9:24:22 PM by Hibernate Tools 4.3.1
+// Generated Mar 23, 2016 6:34:53 PM by Hibernate Tools 4.3.1
 
 
 import java.math.BigDecimal;

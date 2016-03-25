@@ -32,7 +32,7 @@ public class CredentialsDAO {
         try {
             factory = HibernateUtil.getSessionFactory();
             session = factory.openSession();
-            tx = session.beginTransaction();            
+            tx = session.beginTransaction();          
             
             Query query = session.createQuery("select u from Credentials u");
             users = query.list();

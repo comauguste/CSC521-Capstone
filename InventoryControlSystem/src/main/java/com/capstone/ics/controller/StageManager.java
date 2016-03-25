@@ -53,4 +53,23 @@ public class StageManager {
         }
     }
 
+    public Stage openAndReturnNextStage(String targetedStage, String stageTitle) {
+
+        try {
+            Parent parent = FXMLLoader.load(getClass().getResource(targetedStage));
+            Scene scene = new Scene(parent);
+            Stage stage = new Stage();
+            stage.setTitle(stageTitle);
+            stage.setScene(scene);
+            stage.show();
+            
+            return stage;
+
+        } catch (IOException ex) {
+            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return null;
+    }
+    
 }

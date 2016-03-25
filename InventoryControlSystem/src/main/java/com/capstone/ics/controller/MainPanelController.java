@@ -15,7 +15,7 @@ import javafx.fxml.FXML;
  */
 public class MainPanelController {
 
-    private final String userModuleStage = "/fxml/UserManager.fxml";
+    private final String userModuleStage = "/fxml/UsersManager.fxml";
 
     private final StageManager newStage = new StageManager();
 

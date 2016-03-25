@@ -9,13 +9,8 @@
     <property name="hibernate.connection.password">Journey1</property>
     <property name="hibernate.show_sql">true</property>
     <property name="hibernate.query.factory_class">org.hibernate.hql.internal.classic.ClassicQueryTranslatorFactory</property>
-    <mapping resource="com/capstone/ics/model/Site.hbm.xml"/>
-    <mapping resource="com/capstone/ics/model/Users.hbm.xml"/>
-    <mapping resource="com/capstone/ics/model/InventoryItems.hbm.xml"/>
-    <mapping resource="com/capstone/ics/model/Credentials.hbm.xml"/>
-    <mapping resource="com/capstone/ics/model/UserAddresses.hbm.xml"/>
-    <mapping resource="com/capstone/ics/model/JobTitles.hbm.xml"/>
-    <mapping resource="com/capstone/ics/model/RefItemCategories.hbm.xml"/>
-    <mapping resource="com/capstone/ics/model/UserAssignedToSite.hbm.xml"/>
+    <mapping class="com.capstone.ics.model.Users"/>
+    <mapping class="com.capstone.ics.model.UsersTest"/>
+    <mapping class="com.capstone.ics.model.Credentials"/>
   </session-factory>
 </hibernate-configuration>
