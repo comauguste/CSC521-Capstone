@@ -54,7 +54,12 @@ public class UsersDAO {
             session = factory.openSession();
             tx = session.beginTransaction();
             Query query = session.createQuery("select u from Users u");
-            users = query.list();             
+            users = query.list();
+
+            for (Users aUser : users) {
+                System.out.println(aUser.getFirstName() + "    " + aUser.getLastName() + "   " + aUser.getUserCredentials().getUsername());
+            }
+
             tx.commit();
             return users;
         } catch (Exception e) {
@@ -102,14 +107,18 @@ public class UsersDAO {
         }
     }
 
-    public ObservableList<Users> getUsersData() {
+    public ObservableList<Users> getUsersAsObservableList() {
         try {
             factory = HibernateUtil.getSessionFactory();
             session = factory.openSession();
             tx = session.beginTransaction();
             Query query = session.createQuery("select u from Users u");
             users = query.list();
-            userData = FXCollections.observableArrayList(users);           
+            for (Users aUser : users) {
+                System.out.println(aUser.getFirstName() + "    " + aUser.getLastName() + "   " + aUser.getUserCredentials().getUsername());
+            }
+
+            userData = FXCollections.observableArrayList(users);
             tx.commit();
             return userData;
         } catch (Exception e) {
@@ -121,17 +130,16 @@ public class UsersDAO {
 
         return userData;
     }
-    
-    public ObservableList<Users> getPersonData()
-    {
+
+    public ObservableList<Users> getPersonData() {
         return userData;
     }
 
     public static void main(String[] args) {
-        
+
         UsersDAO test = new UsersDAO();
-        test.getUsersData();
-        
+        test.getUsersAsObservableList();
+
     }
 
 }

@@ -27,7 +27,7 @@ public class Test {
         user.setBirthDate(new Date());
         user.setPhoneNumber("234823402348");
         user.setFkJobTitleCode(5);
-        user.setFkUserAddressId(8);
+       
         
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();

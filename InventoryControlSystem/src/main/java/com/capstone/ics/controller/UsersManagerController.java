@@ -11,13 +11,13 @@ import com.capstone.ics.util.DateUtil;
 import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -51,24 +51,28 @@ public class UsersManagerController {
     @FXML
     private Label cityLabel;
     @FXML
-    private Label postalCodeLabel;
-    @FXML
-    private Label birthdayCode;
-    @FXML
-    private Label accessLeveLabel;
+    private Label postalCodeLabel;    
     @FXML
     private Label stateLabel;
     @FXML
     private Label birthdayLabel;
     @FXML
     private Label countryLabel;
+    @FXML
+    private Label accessLevelLabel;
+    @FXML
+    private Label reportLabel;
+    @FXML
+    private Label logLabel;
 
     private final StageManager aStage = new StageManager();
+    
+    private UsersDAO usersList;
 
     @FXML
     private void initialize() {
-        UsersDAO usersList = new UsersDAO();
-        personTable.setItems(usersList.getUsersData());
+        usersList = new UsersDAO();
+        personTable.setItems(usersList.getUsersAsObservableList());
 
         //Initialize the person table with the two columns
         firstNameColumn.setCellValueFactory(CellData -> CellData.getValue().firstNameProperty());
@@ -91,16 +95,15 @@ public class UsersManagerController {
             phoneNumberLabel.setText(aUser.getPhoneNumber());
             genderLabel.setText(aUser.getGender());
             birthdayLabel.setText(DateUtil.format(aUser.getBirthDate()));
-
-//            address1Label;
-//            address2Label;
-//            cityLabel;
-//            postalCodeLabel;
-//            birthdayCode;
-//            accessLeveLabel;
-//            stateLabel;
-//            birthdayLabel;
-//            countryLabel;
+            address1Label.setText(aUser.getAddress().getUserAddressLine1());
+            address2Label.setText(aUser.getAddress().getUserAddressLine2());
+            cityLabel.setText(aUser.getAddress().getCity());
+            postalCodeLabel.setText(aUser.getAddress().getZipCode());
+            stateLabel.setText(aUser.getAddress().getState());
+            countryLabel.setText(aUser.getAddress().getCountry());            
+            accessLevelLabel.setText(aUser.getUserCredentials().convertAccessLevelToString());
+            reportLabel.setText(aUser.getUserCredentials().convertReportAccessLevelToString());
+            logLabel.setText(aUser.getUserCredentials().convertLogAccessLevelToString());
         } else {
 
             firstNameLabel.setText("");
@@ -109,6 +112,15 @@ public class UsersManagerController {
             phoneNumberLabel.setText("");
             genderLabel.setText("");
             birthdayLabel.setText("");
+            address1Label.setText("");
+            address2Label.setText("");
+            cityLabel.setText("");
+            postalCodeLabel.setText("");
+            stateLabel.setText("");
+            countryLabel.setText("");
+            accessLevelLabel.setText("");
+            reportLabel.setText("");
+            logLabel.setText("");           
 
         }
     }
@@ -120,10 +132,10 @@ public class UsersManagerController {
     @FXML
     private void handleNewUser() {
         Users tempUser = new Users();
-        UsersDAO userData = new UsersDAO();
+        
         boolean okClicked = showUserEditDialog(tempUser);
         if (okClicked) {
-            userData.getPersonData().add(tempUser);
+            usersList.getPersonData().add(tempUser);
             //TO complete later
         }
     }
@@ -138,7 +150,7 @@ public class UsersManagerController {
         if (selectedUser != null) {
             boolean okClicked =showUserEditDialog(selectedUser);
             if (okClicked) {
-                showUserEditDialog(selectedUser);
+                showUserDetails(selectedUser);
             }
 
         } else {
@@ -175,18 +187,21 @@ public class UsersManagerController {
     public boolean showUserEditDialog(Users aUser) {
         try {
 
-            // Create the dialog Stage.  
-            Parent parent = FXMLLoader.load(getClass().getResource("/fxml/EditUserDetailsDialog.fxml"));
-            Scene scene = new Scene(parent);
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/fxml/EditUserDetailsDialog.fxml"));
+            AnchorPane page = (AnchorPane)loader.load();
+            
+            // Create the dialog Stage. 
+            Scene scene = new Scene(page);
             Stage dialogStage = new Stage();
-            dialogStage.setTitle("Edit Person");
+            dialogStage.setTitle("Edit User Information");
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.setScene(scene);
-            dialogStage.show();          
+                   
             
 
             // Set the person into the controller.
-            EditUserDetailsDialogController controller = new EditUserDetailsDialogController();
+            EditUserDetailsDialogController controller = loader.getController();
             controller.setDialogStage(dialogStage);
             controller.setUser(aUser);
 

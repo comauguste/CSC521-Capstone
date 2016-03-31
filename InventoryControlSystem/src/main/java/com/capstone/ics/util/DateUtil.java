@@ -7,7 +7,10 @@ package com.capstone.ics.util;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -20,7 +23,7 @@ import java.util.Date;
  */
 public class DateUtil {
 
-    private static final String DATE_PATTERN = "dd.MM.yyyy";
+    private static final String DATE_PATTERN = "yyyy-MM-dd";
 
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern(DATE_PATTERN);
 
@@ -36,7 +39,7 @@ public class DateUtil {
     }
 
     public static LocalDate parse(String dateString) {
-        DateFormat df = new SimpleDateFormat("MM/dd/yyyy"); 
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd"); 
         try {           
    
             return DATE_FORMATTER.parse(dateString, LocalDate::from);
@@ -48,6 +51,24 @@ public class DateUtil {
 
     public static boolean validDate(String dateString) {
         return DateUtil.parse(dateString) != null;
+    }
+    
+    public static LocalDate fromDate(Date date)
+    {
+        if(date == null)
+        {
+            LocalDate today = LocalDate.now();
+            return  today;
+        }
+        Instant instant = Instant.ofEpochMilli(date.getTime());
+        return LocalDateTime.ofInstant(instant, ZoneId.systemDefault()).toLocalDate();
+    }
+    
+    public static Date convertToDate(LocalDate localDate)
+    {
+        Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        
+        return date;
     }
 
 }
