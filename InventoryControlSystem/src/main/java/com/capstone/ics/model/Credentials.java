@@ -3,10 +3,13 @@ package com.capstone.ics.model;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
@@ -22,10 +25,6 @@ import org.hibernate.annotations.Parameter;
 public class Credentials implements java.io.Serializable {
 
     private Integer credentialsId;
-
-    
-    private int fkCrUserId;
-
     private Users users;
     private String username;    
     private String password;
@@ -36,14 +35,12 @@ public class Credentials implements java.io.Serializable {
     public Credentials() {
     }
 
-    public Credentials(int fkCrUserId, String username, String password) {
-        this.fkCrUserId = fkCrUserId;
-        this.username = username;
+    public Credentials(String username, String password) {
+         this.username = username;
         this.password = password;
     }
 
-    public Credentials(int fkCrUserId, String username, String password, boolean isAdministrator, boolean accessReportModule, boolean accessLogModule) {
-       this.fkCrUserId = fkCrUserId;
+    public Credentials( String username, String password, boolean isAdministrator, boolean accessReportModule, boolean accessLogModule) {
        this.username = username;
        this.password = password;
        this.isAdministrator = isAdministrator;
@@ -52,8 +49,7 @@ public class Credentials implements java.io.Serializable {
     }
 
     @Id
-    @GeneratedValue(generator ="gen")
-    @GenericGenerator(name = "gen", strategy = "foreign", parameters = {@Parameter(name = "property", value ="users")})
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "CREDENTIALS_ID")
     public Integer getCredentialsId() {
         return this.credentialsId;
@@ -63,14 +59,7 @@ public class Credentials implements java.io.Serializable {
         this.credentialsId = credentialsId;
     }
 
-    @Column(name = "FK_CR_USER_ID")
-    public int getFkCrUserId() {
-        return this.fkCrUserId;
-    }
-
-    public void setFkCrUserId(int fkCrUserId) {
-        this.fkCrUserId = fkCrUserId;
-    }
+   
 
     @Column(name = "USERNAME")
     public String getUsername() {
@@ -119,8 +108,8 @@ public class Credentials implements java.io.Serializable {
         this.accessLogModule = accessLogModule;
     }    
 
-    @OneToOne
-    @PrimaryKeyJoinColumn
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "FK_CR_USER_ID", referencedColumnName = "PK_USER_ID")
     public Users getUsers() {
         return users;
     }

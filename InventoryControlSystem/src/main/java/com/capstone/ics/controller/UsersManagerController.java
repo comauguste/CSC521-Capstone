@@ -6,6 +6,8 @@
 package com.capstone.ics.controller;
 
 import com.capstone.ics.DAO.UsersDAO;
+import com.capstone.ics.model.Credentials;
+import com.capstone.ics.model.UserAddresses;
 import com.capstone.ics.model.Users;
 import com.capstone.ics.util.DateUtil;
 import java.io.IOException;
@@ -131,12 +133,20 @@ public class UsersManagerController {
      */
     @FXML
     private void handleNewUser() {
-        Users tempUser = new Users();
+        Users tempUser = new Users();    
+        UserAddresses tempAddresses = new UserAddresses();
+        Credentials tempCredentials = new Credentials();
         
-        boolean okClicked = showUserEditDialog(tempUser);
+        boolean okClicked = showUserEditDialog(tempUser, tempAddresses, tempCredentials);
         if (okClicked) {
             usersList.getPersonData().add(tempUser);
-            //TO complete later
+            //TO complete later 
+            tempAddresses.setUsers(tempUser);
+            tempCredentials.setUsers(tempUser);
+            tempUser.setAddress(tempAddresses);
+            tempUser.setUserCredentials(tempCredentials);             
+
+            usersList.saveOrUpdateUser(tempUser);
         }
     }
 
@@ -146,11 +156,14 @@ public class UsersManagerController {
      */
     @FXML
     private void handleEditPerson() {
-        Users selectedUser = personTable.getSelectionModel().getSelectedItem();
+        Users selectedUser = personTable.getSelectionModel().getSelectedItem();        
         if (selectedUser != null) {
-            boolean okClicked =showUserEditDialog(selectedUser);
+            UserAddresses selectedUserAddresses = selectedUser.getAddress();
+            Credentials selectedUserCredentials = selectedUser.getUserCredentials();
+            boolean okClicked =showUserEditDialog(selectedUser, selectedUserAddresses, selectedUserCredentials );
             if (okClicked) {
                 showUserDetails(selectedUser);
+                usersList.saveOrUpdateUser(selectedUser);
             }
 
         } else {
@@ -184,7 +197,7 @@ public class UsersManagerController {
 
     }
 
-    public boolean showUserEditDialog(Users aUser) {
+    public boolean showUserEditDialog(Users aUser, UserAddresses address, Credentials credentials) {
         try {
 
             FXMLLoader loader = new FXMLLoader();
@@ -203,7 +216,7 @@ public class UsersManagerController {
             // Set the person into the controller.
             EditUserDetailsDialogController controller = loader.getController();
             controller.setDialogStage(dialogStage);
-            controller.setUser(aUser);
+            controller.setUser(aUser, address, credentials);
 
             // Show the dialog and wait until the user closes it
             dialogStage.showAndWait();

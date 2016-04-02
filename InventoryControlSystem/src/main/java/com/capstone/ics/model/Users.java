@@ -8,6 +8,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,7 +26,7 @@ import org.hibernate.annotations.Cascade;
 @Access(value = AccessType.PROPERTY)
 public class Users implements java.io.Serializable {
 
-    private Integer pkUserId;
+    private Integer pkUserId ;
     private int fkJobTitleCode;
     private StringProperty firstName = new SimpleStringProperty(this, "FIRST_NAME");
     private StringProperty lastName = new SimpleStringProperty(this, "LAST_NAME");
@@ -49,6 +50,11 @@ public class Users implements java.io.Serializable {
     public Users() {
     }
 
+    public Users(UserAddresses address, Credentials userCredentials) {
+        this.address = address;
+        this.userCredentials = userCredentials;
+    }
+    
     public Users(int fkJobTitleCode, String firstName, String lastName, Date birthDate, String emailAddress, String phoneNumber, String gender, Date lastUpdatedDate, String createdBy, Date createdDate, UserAddresses address) {
         setFkJobTitleCode(fkJobTitleCode);
         setFirstName(firstName);
@@ -242,8 +248,7 @@ public class Users implements java.io.Serializable {
         this.createdDate.set(createdDate);
     }
 
-    @OneToOne(mappedBy = "users")
-    @Cascade(value = org.hibernate.annotations.CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "users")
     public UserAddresses getAddress() {
         return address;
     }
@@ -252,8 +257,7 @@ public class Users implements java.io.Serializable {
         this.address = address;
     }
 
-    @OneToOne(mappedBy = "users")
-    @Cascade(value = org.hibernate.annotations.CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "users")
     public Credentials getUserCredentials() {
         return userCredentials;
     }

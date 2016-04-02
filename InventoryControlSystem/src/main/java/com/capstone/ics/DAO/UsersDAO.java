@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -36,11 +37,22 @@ public class UsersDAO {
         try {
             factory = HibernateUtil.getSessionFactory();
             session = factory.openSession();
+            tx = session.beginTransaction();
             session.saveOrUpdate(user);
             tx.commit();
 
-        } catch (Exception e) {
-            tx.rollback();
+        } catch (HibernateException  e) {
+            if (tx != null) {
+                try {
+                    tx.rollback();
+                } catch (Exception re) {
+                    System.err.println("Error when trying to rollback transaction:"); // use logging framework here
+                    re.printStackTrace();
+                }
+            }
+            System.err.println("Original error when executing query:"); // // use logging framework here
+
+            e.printStackTrace();
         } finally {
             session.close();
             factory.close();
@@ -74,7 +86,7 @@ public class UsersDAO {
 
     public List<Users> getUserById(Integer id) {
         try {
-            factory = HibernateUtil.getSessionFactory();
+//            factory = HibernateUtil.getSessionFactory();
             session = factory.openSession();
             users = session.createCriteria(Users.class).add(Restrictions.idEq(id)).list();
             tx.commit();
@@ -83,7 +95,7 @@ public class UsersDAO {
             tx.rollback();
         } finally {
             session.close();
-            factory.close();
+//            factory.close();
         }
 
         return users;
@@ -91,7 +103,7 @@ public class UsersDAO {
 
     public void deleteUserById(Integer id) {
         try {
-            factory = HibernateUtil.getSessionFactory();
+//            factory = HibernateUtil.getSessionFactory();
             session = factory.openSession();
             Users aUser = (Users) session.createCriteria(Users.class).add(Restrictions.idEq(id)).uniqueResult();
             if (aUser != null) {
@@ -103,7 +115,7 @@ public class UsersDAO {
             tx.rollback();
         } finally {
             session.close();
-            factory.close();
+//            factory.close();
         }
     }
 
@@ -114,18 +126,28 @@ public class UsersDAO {
             tx = session.beginTransaction();
             Query query = session.createQuery("select u from Users u");
             users = query.list();
-            for (Users aUser : users) {
-                System.out.println(aUser.getFirstName() + "    " + aUser.getLastName() + "   " + aUser.getUserCredentials().getUsername());
-            }
+//            for (Users aUser : users) {
+//                System.out.println(aUser.getFirstName() + "    " + aUser.getLastName() + "   " + aUser.getUserCredentials().getUsername());
+//            }
 
             userData = FXCollections.observableArrayList(users);
             tx.commit();
             return userData;
-        } catch (Exception e) {
-            tx.rollback();
+        } catch (HibernateException  e) {
+            if (tx != null) {
+                try {
+                    tx.rollback();
+                } catch (Exception re) {
+                    System.err.println("Error when trying to rollback transaction:"); // use logging framework here
+                    re.printStackTrace();
+                }
+            }
+            System.err.println("Original error when executing query:"); // // use logging framework here
+
+            e.printStackTrace();
         } finally {
             session.close();
-            factory.close();
+//            factory.close();
         }
 
         return userData;

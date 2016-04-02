@@ -3,10 +3,13 @@ package com.capstone.ics.model;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
@@ -57,8 +60,7 @@ public class UserAddresses  implements java.io.Serializable {
     }
    
     @Id
-    @GeneratedValue(generator ="gen")
-    @GenericGenerator(name = "gen", strategy = "foreign", parameters = {@Parameter(name = "property", value ="users")})
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "PK_ADDRESS_ID")
     public Integer getPkAddressId() {
         return this.pkAddressId;
@@ -68,8 +70,8 @@ public class UserAddresses  implements java.io.Serializable {
         this.pkAddressId = pkAddressId;
     }
     
-    @OneToOne
-    @PrimaryKeyJoinColumn
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "USER_ID", referencedColumnName = "PK_USER_ID")
     public Users getUsers() {
         return this.users;
     }

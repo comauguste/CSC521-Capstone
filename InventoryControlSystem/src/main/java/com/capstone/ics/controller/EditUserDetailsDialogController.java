@@ -5,6 +5,8 @@
  */
 package com.capstone.ics.controller;
 
+import com.capstone.ics.model.Credentials;
+import com.capstone.ics.model.UserAddresses;
 import com.capstone.ics.model.Users;
 import com.capstone.ics.util.DateUtil;
 import javafx.collections.FXCollections;
@@ -56,7 +58,7 @@ public class EditUserDetailsDialogController {
 
     @FXML
     private TextField usernameTextField;
-    
+
     @FXML
     private TextField cityTextField;
 
@@ -77,6 +79,8 @@ public class EditUserDetailsDialogController {
 
     private Stage mDialogStage;
     private Users mUsers;
+    private UserAddresses mAddresses;
+    private Credentials mCredentials;
     private boolean okCliked = false;
     ObservableList<String> yesOrNo = FXCollections.observableArrayList("Yes", "No");
     ObservableList<String> userCredential = FXCollections.observableArrayList("Administrator", "Regular User");
@@ -85,33 +89,35 @@ public class EditUserDetailsDialogController {
     public void initialize() {
         accessLevelChoiceBox.setItems(userCredential);
         reportChoiceBox.setItems(yesOrNo);
-        logChoiceBox.setItems(yesOrNo);        
+        logChoiceBox.setItems(yesOrNo);
     }
 
     public void setDialogStage(Stage newDialogStage) {
         mDialogStage = newDialogStage;
     }
 
-    public void setUser(Users aUser) {
+    public void setUser(Users aUser, UserAddresses address, Credentials credentials) {
         mUsers = aUser;
-        firstNameTextField.setText(aUser.getFirstName());
-        lastNameTextField.setText(aUser.getLastName());
-        emailTextField.setText(aUser.getEmailAddress());
-        phoneTextField.setText(aUser.getPhoneNumber());
-        genderTextField.setText(aUser.getGender());
-        address1TextField.setText(aUser.getAddress().getUserAddressLine1());
-        address2TextField.setText(aUser.getAddress().getUserAddressLine2());
-        cityTextField.setText(aUser.getAddress().getCity());
-        stateTextField.setText(aUser.getAddress().getState());
-        postalCodeTextField.setText(aUser.getAddress().getZipCode());
-        countryTextField.setText(aUser.getAddress().getCountry());
-        usernameTextField.setText(aUser.getUserCredentials().getUsername());
-        passwordTextField.setText(aUser.getUserCredentials().getPassword());        
-        birthdayDatePicker.setValue(DateUtil.fromDate(aUser.getBirthDate())); 
-        accessLevelChoiceBox.setValue(aUser.getUserCredentials().convertAccessLevelToString());
-        reportChoiceBox.setValue(aUser.getUserCredentials().convertReportAccessLevelToString());
-        logChoiceBox.setValue(aUser.getUserCredentials().convertLogAccessLevelToString());
-        
+        mAddresses = address;
+        mCredentials = credentials;
+
+        firstNameTextField.setText(mUsers.getFirstName());
+        lastNameTextField.setText(mUsers.getLastName());
+        emailTextField.setText(mUsers.getEmailAddress());
+        phoneTextField.setText(mUsers.getPhoneNumber());
+        genderTextField.setText(mUsers.getGender());
+        birthdayDatePicker.setValue(DateUtil.fromDate(aUser.getBirthDate()));
+        address1TextField.setText(mAddresses.getUserAddressLine1());
+        address2TextField.setText(mAddresses.getUserAddressLine2());
+        cityTextField.setText(mAddresses.getCity());
+        stateTextField.setText(mAddresses.getState());
+        postalCodeTextField.setText(mAddresses.getZipCode());
+        countryTextField.setText(mAddresses.getCountry());
+        usernameTextField.setText(mCredentials.getUsername());
+        passwordTextField.setText(mCredentials.getPassword());
+        accessLevelChoiceBox.setValue(mCredentials.convertAccessLevelToString());
+        reportChoiceBox.setValue(mCredentials.convertReportAccessLevelToString());
+        logChoiceBox.setValue(mCredentials.convertLogAccessLevelToString());
 
     }
 
@@ -128,18 +134,18 @@ public class EditUserDetailsDialogController {
             mUsers.setPhoneNumber(phoneTextField.getText());
             mUsers.setGender(genderTextField.getText());
             mUsers.setBirthDate(DateUtil.convertToDate(birthdayDatePicker.getValue()));
-            mUsers.getAddress().setUserAddressLine1(address1TextField.getText());
-            mUsers.getAddress().setUserAddressLine2(address2TextField.getText());
-            mUsers.getAddress().setState(stateTextField.getText());
-            mUsers.getAddress().setZipCode(postalCodeTextField.getText());
-            mUsers.getAddress().setCity(cityTextField.getText());
-            mUsers.getAddress().setCountry(countryTextField.getText());
-            mUsers.getUserCredentials().setUsername(usernameTextField.getText());
-            mUsers.getUserCredentials().setPassword(passwordTextField.getText());
-            mUsers.getUserCredentials().returnAccessLevelAsBoolean(getChoice(accessLevelChoiceBox));
-            mUsers.getUserCredentials().returnReportAccessLevelAsBoolean(getChoice(reportChoiceBox));
-            mUsers.getUserCredentials().returnLogAccessLevelAsBoolean(getChoice(logChoiceBox));
-            
+            mAddresses.setUserAddressLine1(address1TextField.getText());
+            mAddresses.setUserAddressLine2(address2TextField.getText());
+            mAddresses.setState(stateTextField.getText());
+            mAddresses.setZipCode(postalCodeTextField.getText());
+            mAddresses.setCity(cityTextField.getText());
+            mAddresses.setCountry(countryTextField.getText());
+            mCredentials.setUsername(usernameTextField.getText());
+            mCredentials.setPassword(passwordTextField.getText());
+            mCredentials.returnAccessLevelAsBoolean(getChoice(accessLevelChoiceBox));
+            mCredentials.returnReportAccessLevelAsBoolean(getChoice(reportChoiceBox));
+            mCredentials.returnLogAccessLevelAsBoolean(getChoice(logChoiceBox));
+
             okCliked = true;
             mDialogStage.close();
         }
@@ -179,10 +185,8 @@ public class EditUserDetailsDialogController {
             return false;
         }
     }
-    
-    
-    private String getChoice(ChoiceBox<String> choice)
-    {
+
+    private String getChoice(ChoiceBox<String> choice) {
         return choice.getValue();
     }
 
