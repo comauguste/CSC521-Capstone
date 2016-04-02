@@ -5,163 +5,104 @@
  */
 package com.capstone.ics.DAO;
 
+import com.capstone.ics.interfaces.UsersDaoInterface;
 import com.capstone.ics.model.Users;
 import com.capstone.ics.util.HibernateUtil;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Restrictions;
+import org.hibernate.Transaction;
 
 /**
  *
  * @author Auguste C
  */
-public class UsersDAO {
+public class UsersDAO implements UsersDaoInterface<Users, Integer> {
 
-    SessionFactory factory;
-    Session session;
-    org.hibernate.Transaction tx;
+    private Session currentSession;
+
+    private Transaction currentTransaction;
+
     private List<Users> users = new ArrayList<>();
-    private ObservableList<Users> userData;
 
     public UsersDAO() {
-
     }
 
-    public void saveOrUpdateUser(Users user) {
-        try {
-            factory = HibernateUtil.getSessionFactory();
-            session = factory.openSession();
-            tx = session.beginTransaction();
-            session.saveOrUpdate(user);
-            tx.commit();
-
-        } catch (HibernateException  e) {
-            if (tx != null) {
-                try {
-                    tx.rollback();
-                } catch (Exception re) {
-                    System.err.println("Error when trying to rollback transaction:"); // use logging framework here
-                    re.printStackTrace();
-                }
-            }
-            System.err.println("Original error when executing query:"); // // use logging framework here
-
-            e.printStackTrace();
-        } finally {
-            session.close();
-            factory.close();
-        }
-
+    public Session openCurrentSession() {
+        currentSession = HibernateUtil.getSessionFactory().openSession();
+        return currentSession;
     }
 
+    public Session openCurrentSessionWithTransaction() {
+        currentSession = HibernateUtil.getSessionFactory().openSession();
+        currentTransaction = currentSession.beginTransaction();
+        return currentSession;
+    }
+    
+    public void closeCurrentSession() {
+        currentSession.close();
+    }
+
+    public void closeCurrentSessionWithTransaction() {
+        currentTransaction.commit();;
+        currentSession.close();
+    }
+
+
+    public Session getCurrentSession() {
+        return currentSession;
+    }
+
+    public void setCurrentSession(Session currentSession) {
+        this.currentSession = currentSession;
+    }
+
+    public Transaction getCurrentTransaction() {
+        return currentTransaction;
+    }
+
+    public void setCurrentTransaction(Transaction currentTransaction) {
+        this.currentTransaction = currentTransaction;
+    }
+
+    @Override
+    public void save(Users aUser) {
+        getCurrentSession().save(aUser);
+    }
+
+    @Override
+    public void update(Users aUser) {
+        getCurrentSession().update(aUser);
+    }
+
+    @Override
+    public Users findById(Integer id) {
+        Users aUser = (Users) getCurrentSession().get(Users.class, id);
+        return aUser;
+    }
+
+    @Override
+    public void delete(Users aUser) {
+        getCurrentSession().delete(aUser);
+    }
+
+    @Override
     public List<Users> getAllUsers() {
-        try {
-            factory = HibernateUtil.getSessionFactory();
-            session = factory.openSession();
-            tx = session.beginTransaction();
-            Query query = session.createQuery("select u from Users u");
-            users = query.list();
-
-            for (Users aUser : users) {
-                System.out.println(aUser.getFirstName() + "    " + aUser.getLastName() + "   " + aUser.getUserCredentials().getUsername());
-            }
-
-            tx.commit();
-            return users;
-        } catch (Exception e) {
-            tx.rollback();
-        } finally {
-            session.close();
-            factory.close();
-        }
-
+        Query query = currentSession.createQuery("select u from Users u");
+        users = query.list();        
         return users;
     }
 
-    public List<Users> getUserById(Integer id) {
-        try {
-//            factory = HibernateUtil.getSessionFactory();
-            session = factory.openSession();
-            users = session.createCriteria(Users.class).add(Restrictions.idEq(id)).list();
-            tx.commit();
-            return users;
-        } catch (Exception e) {
-            tx.rollback();
-        } finally {
-            session.close();
-//            factory.close();
-        }
-
-        return users;
-    }
-
-    public void deleteUserById(Integer id) {
-        try {
-//            factory = HibernateUtil.getSessionFactory();
-            session = factory.openSession();
-            Users aUser = (Users) session.createCriteria(Users.class).add(Restrictions.idEq(id)).uniqueResult();
-            if (aUser != null) {
-                session.delete(aUser);
-            }
-            tx.commit();
-
-        } catch (Exception e) {
-            tx.rollback();
-        } finally {
-            session.close();
-//            factory.close();
-        }
-    }
-
+    @Override
     public ObservableList<Users> getUsersAsObservableList() {
-        try {
-            factory = HibernateUtil.getSessionFactory();
-            session = factory.openSession();
-            tx = session.beginTransaction();
-            Query query = session.createQuery("select u from Users u");
+        ObservableList<Users> observableUsersList;
+        Query query = currentSession.createQuery("select u from Users u");
             users = query.list();
-//            for (Users aUser : users) {
-//                System.out.println(aUser.getFirstName() + "    " + aUser.getLastName() + "   " + aUser.getUserCredentials().getUsername());
-//            }
-
-            userData = FXCollections.observableArrayList(users);
-            tx.commit();
-            return userData;
-        } catch (HibernateException  e) {
-            if (tx != null) {
-                try {
-                    tx.rollback();
-                } catch (Exception re) {
-                    System.err.println("Error when trying to rollback transaction:"); // use logging framework here
-                    re.printStackTrace();
-                }
-            }
-            System.err.println("Original error when executing query:"); // // use logging framework here
-
-            e.printStackTrace();
-        } finally {
-            session.close();
-//            factory.close();
-        }
-
-        return userData;
-    }
-
-    public ObservableList<Users> getPersonData() {
-        return userData;
-    }
-
-    public static void main(String[] args) {
-
-        UsersDAO test = new UsersDAO();
-        test.getUsersAsObservableList();
-
+            observableUsersList = FXCollections.observableArrayList(users);          
+            return observableUsersList;
     }
 
 }

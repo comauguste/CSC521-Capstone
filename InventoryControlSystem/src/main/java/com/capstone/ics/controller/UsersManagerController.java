@@ -5,10 +5,10 @@
  */
 package com.capstone.ics.controller;
 
-import com.capstone.ics.DAO.UsersDAO;
 import com.capstone.ics.model.Credentials;
 import com.capstone.ics.model.UserAddresses;
 import com.capstone.ics.model.Users;
+import com.capstone.ics.service.UserService;
 import com.capstone.ics.util.DateUtil;
 import java.io.IOException;
 import javafx.fxml.FXML;
@@ -53,7 +53,7 @@ public class UsersManagerController {
     @FXML
     private Label cityLabel;
     @FXML
-    private Label postalCodeLabel;    
+    private Label postalCodeLabel;
     @FXML
     private Label stateLabel;
     @FXML
@@ -68,13 +68,13 @@ public class UsersManagerController {
     private Label logLabel;
 
     private final StageManager aStage = new StageManager();
-    
-    private UsersDAO usersList;
+
+    private UserService userService;
 
     @FXML
     private void initialize() {
-        usersList = new UsersDAO();
-        personTable.setItems(usersList.getUsersAsObservableList());
+        userService = new UserService();
+        personTable.setItems(userService.getUsersAsObservableList());
 
         //Initialize the person table with the two columns
         firstNameColumn.setCellValueFactory(CellData -> CellData.getValue().firstNameProperty());
@@ -102,7 +102,7 @@ public class UsersManagerController {
             cityLabel.setText(aUser.getAddress().getCity());
             postalCodeLabel.setText(aUser.getAddress().getZipCode());
             stateLabel.setText(aUser.getAddress().getState());
-            countryLabel.setText(aUser.getAddress().getCountry());            
+            countryLabel.setText(aUser.getAddress().getCountry());
             accessLevelLabel.setText(aUser.getUserCredentials().convertAccessLevelToString());
             reportLabel.setText(aUser.getUserCredentials().convertReportAccessLevelToString());
             logLabel.setText(aUser.getUserCredentials().convertLogAccessLevelToString());
@@ -122,7 +122,7 @@ public class UsersManagerController {
             countryLabel.setText("");
             accessLevelLabel.setText("");
             reportLabel.setText("");
-            logLabel.setText("");           
+            logLabel.setText("");
 
         }
     }
@@ -133,20 +133,20 @@ public class UsersManagerController {
      */
     @FXML
     private void handleNewUser() {
-        Users tempUser = new Users();    
+        Users tempUser = new Users();
         UserAddresses tempAddresses = new UserAddresses();
         Credentials tempCredentials = new Credentials();
-        
+
         boolean okClicked = showUserEditDialog(tempUser, tempAddresses, tempCredentials);
         if (okClicked) {
-            usersList.getPersonData().add(tempUser);
+            userService.getUsersData().add(tempUser);
             //TO complete later 
             tempAddresses.setUsers(tempUser);
             tempCredentials.setUsers(tempUser);
             tempUser.setAddress(tempAddresses);
-            tempUser.setUserCredentials(tempCredentials);             
+            tempUser.setUserCredentials(tempCredentials);
 
-            usersList.saveOrUpdateUser(tempUser);
+            userService.save(tempUser);
         }
     }
 
@@ -156,14 +156,14 @@ public class UsersManagerController {
      */
     @FXML
     private void handleEditPerson() {
-        Users selectedUser = personTable.getSelectionModel().getSelectedItem();        
+        Users selectedUser = personTable.getSelectionModel().getSelectedItem();
         if (selectedUser != null) {
             UserAddresses selectedUserAddresses = selectedUser.getAddress();
             Credentials selectedUserCredentials = selectedUser.getUserCredentials();
-            boolean okClicked =showUserEditDialog(selectedUser, selectedUserAddresses, selectedUserCredentials );
+            boolean okClicked = showUserEditDialog(selectedUser, selectedUserAddresses, selectedUserCredentials);
             if (okClicked) {
                 showUserDetails(selectedUser);
-                usersList.saveOrUpdateUser(selectedUser);
+                userService.update(selectedUser);
             }
 
         } else {
@@ -183,9 +183,10 @@ public class UsersManagerController {
     @FXML
     public void deleteSelectedUser() {
         int selectedIndex = personTable.getSelectionModel().getSelectedIndex();
+        Users selectedUser = personTable.getSelectionModel().getSelectedItem();
         if (selectedIndex >= 0) {
             personTable.getItems().remove(selectedIndex);
-            System.out.println(selectedIndex);
+            userService.delete(selectedUser.getPkUserId());
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("No Selection");
@@ -202,16 +203,14 @@ public class UsersManagerController {
 
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/fxml/EditUserDetailsDialog.fxml"));
-            AnchorPane page = (AnchorPane)loader.load();
-            
+            AnchorPane page = (AnchorPane) loader.load();
+
             // Create the dialog Stage. 
             Scene scene = new Scene(page);
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Edit User Information");
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.setScene(scene);
-                   
-            
 
             // Set the person into the controller.
             EditUserDetailsDialogController controller = loader.getController();
