@@ -28,7 +28,7 @@ public class Main extends Application {
 
         try {
 
-            Parent parent = FXMLLoader.load(getClass().getResource("/fxml/UsersManager.fxml"));
+            Parent parent = FXMLLoader.load(getClass().getResource("/fxml/MainControlPanel.fxml"));
             Scene scene = new Scene(parent);
             newStage= new Stage();
             newStage.setTitle("Login");

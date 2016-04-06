@@ -1,5 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
+* To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
@@ -7,8 +7,10 @@ package com.capstone.ics.service;
 
 import com.capstone.ics.DAO.UsersDAO;
 import com.capstone.ics.model.Users;
+import com.capstone.ics.util.HibernateUtil;
 import java.util.List;
 import javafx.collections.ObservableList;
+
 
 /**
  *
@@ -28,37 +30,37 @@ public class UserService {
     }
 
     public void save(Users aUser) {
-        usersDao.openCurrentSessionWithTransaction();
+        HibernateUtil.openCurrentSessionWithTransaction();
         usersDao.save(aUser);
-        usersDao.closeCurrentSessionWithTransaction();
+        HibernateUtil.closeCurrentSessionWithTransaction();
     }
 
     public void update(Users aUser) {
-        usersDao.openCurrentSessionWithTransaction();
+        HibernateUtil.openCurrentSessionWithTransaction();
         usersDao.update(aUser);
-        usersDao.closeCurrentSessionWithTransaction();
+        HibernateUtil.closeCurrentSessionWithTransaction();
     }
 
     public Users findById(Integer id) {
-        usersDao.openCurrentSession();
+        HibernateUtil.openCurrentSession();
         Users aUser = usersDao.findById(id);
-        usersDao.closeCurrentSession();
+        HibernateUtil.closeCurrentSession();
 
         return aUser;
     }
 
     //Do not forget to change the ID data type from String TO int or long( whatever appropriate   
     public void delete(Integer id) {
-        usersDao.openCurrentSessionWithTransaction();
+        HibernateUtil.openCurrentSessionWithTransaction();
         Users aUser = usersDao.findById(id);
         usersDao.delete(aUser);
-        usersDao.closeCurrentSessionWithTransaction();
+        HibernateUtil.closeCurrentSessionWithTransaction();
     }
 
     public List<Users> getAllUsers() {
-        usersDao.openCurrentSession();
+        HibernateUtil.openCurrentSession();
         List<Users> users = usersDao.getAllUsers();
-        usersDao.closeCurrentSession();
+        HibernateUtil.closeCurrentSession();
 
         return users;
 
@@ -66,9 +68,9 @@ public class UserService {
 
     public ObservableList<Users> getUsersAsObservableList() {
 
-        usersDao.openCurrentSession();
+        HibernateUtil.openCurrentSession();
         observableUsersLists = usersDao.getUsersAsObservableList();
-        usersDao.closeCurrentSession();
+        HibernateUtil.closeCurrentSession();
 
         return observableUsersLists;
     }

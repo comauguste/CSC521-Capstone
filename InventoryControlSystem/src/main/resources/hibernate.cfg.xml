@@ -13,5 +13,6 @@
     <mapping class="com.capstone.ics.model.UsersTest"/>
     <mapping class="com.capstone.ics.model.Credentials"/>
     <mapping class="com.capstone.ics.model.UserAddresses"/>
+    <mapping class="com.capstone.ics.model.Site"/>
   </session-factory>
 </hibernate-configuration>

@@ -6,6 +6,7 @@
 package com.capstone.ics;
 
 import com.capstone.ics.model.Credentials;
+import com.capstone.ics.model.Site;
 import com.capstone.ics.model.UserAddresses;
 import com.capstone.ics.model.Users;
 import com.capstone.ics.util.HibernateUtil;
@@ -20,7 +21,25 @@ public class Test {
     
     public static void main (String[] args)
     {
-        Users user = new Users();
+        Site aSite = new Site();
+        aSite.setSiteName("New World");
+        aSite.setSiteAddressLine1("315 Lafayette st");
+        aSite.setSiteCity("salem");
+        aSite.setSiteState("MA");
+        
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        session.save(aSite);
+        session.getTransaction().commit();
+        session.close();
+        
+        
+        
+    }
+    
+    public void testDbConnectionToUser()
+    {
+         Users user = new Users();
         user.setFirstName("tester03");
         user.setLastName("testing");
         user.setEmailAddress("test@test.com");
@@ -54,9 +73,6 @@ public class Test {
         session.save(user);
         session.getTransaction().commit();
         session.close();
-        
-        
-        
     }
     
 }
