@@ -10,9 +10,10 @@
     <property name="hibernate.show_sql">true</property>
     <property name="hibernate.query.factory_class">org.hibernate.hql.internal.classic.ClassicQueryTranslatorFactory</property>
     <mapping class="com.capstone.ics.model.Users"/>
-    <mapping class="com.capstone.ics.model.UsersTest"/>
     <mapping class="com.capstone.ics.model.Credentials"/>
     <mapping class="com.capstone.ics.model.UserAddresses"/>
-    <mapping class="com.capstone.ics.model.Site"/>
+    <mapping class="com.capstone.ics.model.Site"/>    
+    <mapping class="com.capstone.ics.model.InventoryItems"/>
+    <mapping class="com.capstone.ics.model.RefItemCategories"/>
   </session-factory>
 </hibernate-configuration>

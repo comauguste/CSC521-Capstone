@@ -5,18 +5,14 @@
  */
 package com.capstone.ics.interfaces;
 
-
-import com.capstone.ics.model.Site;
 import javafx.collections.ObservableList;
 
 /**
  *
  * @author Auguste C
  */
-public interface SiteDaoInterface<T> {
-
-    public void updateCompanyInformation(T entity);
-    public Site getCompanyInformation();
-    public ObservableList<Site> getSitesAsObservableList();
-
+public interface HierarchyData<T extends HierarchyData>{
+    
+   public ObservableList<T> getChildren();
+    
 }

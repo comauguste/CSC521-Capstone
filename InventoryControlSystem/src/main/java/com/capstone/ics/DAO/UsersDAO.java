@@ -17,7 +17,7 @@ import org.hibernate.Query;
  *
  * @author Auguste C
  */
-public class UsersDAO implements UsersDaoInterface<Users, Integer> {
+public class UsersDAO implements UsersDaoInterface<Users> {
 
     private List<Users> users = new ArrayList<>();
 

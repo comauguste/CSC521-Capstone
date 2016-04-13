@@ -212,7 +212,7 @@ public class UsersManagerController {
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.setScene(scene);
 
-            // Set the person into the controller.
+            // Set the user into the controller.
             EditUserDetailsDialogController controller = loader.getController();
             controller.setDialogStage(dialogStage);
             controller.setUser(aUser, address, credentials);

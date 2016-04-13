@@ -16,13 +16,27 @@ import javafx.fxml.FXML;
 public class MainPanelController {
 
     private final String userModuleStage = "/fxml/UsersManager.fxml";
+    private final String siteModuleStage = "/fxml/CompanyModule.fxml";
+    private final String inventoryModuleStage = "/fxml/InventoryManager.fxml";
 
     private final StageManager newStage = new StageManager();
 
     @FXML
     private void goToUserManagerWindow(Event onMouseClicked) {
         newStage.nextStage(userModuleStage, "Users Module Manager");
-        onMouseClicked.consume();;
+        onMouseClicked.consume();
+    }
+    
+    @FXML
+    private void goToSiteManagerWindow(Event onMouseClicked) {
+        newStage.nextStage(siteModuleStage, "Site Module Manager");
+        onMouseClicked.consume();
+    }
+    
+    @FXML
+    private void goToInventoryManagerWindow(Event onMouseClicked) {
+        newStage.nextStage(inventoryModuleStage, "Inventory Module Manager");
+        onMouseClicked.consume();
     }
 
 }

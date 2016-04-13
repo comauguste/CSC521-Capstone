@@ -3,6 +3,8 @@ package com.capstone.ics.model;
 
 
 import java.util.Date;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Column;
@@ -24,8 +26,9 @@ public class Site  implements java.io.Serializable {
 
      private Integer pkSiteId;
      private int fkSiteUserId;
-     private String siteName;
+     private StringProperty siteName = new SimpleStringProperty(this, "SITE_NAME");
      private String siteWebsite;
+     private String siteEmail;
      private String siteOfficePhone;
      private String siteFax;
      private String siteAddressLine1;
@@ -51,7 +54,7 @@ public class Site  implements java.io.Serializable {
     }
     public Site(int fkSiteUserId, String siteName, String siteWebsite, String siteOfficePhone, String siteFax, String siteAddressLine1, String siteAddressLine2, String siteCity, String siteState, String siteZipCode, String lastUpdatedBy, Date lastUpdatedDate, String createdBy, String createdDate) {
        this.fkSiteUserId = fkSiteUserId;
-       this.siteName = siteName;
+       setSiteName(siteName);
        this.siteWebsite = siteWebsite;
        this.siteOfficePhone = siteOfficePhone;
        this.siteFax = siteFax;
@@ -89,12 +92,17 @@ public class Site  implements java.io.Serializable {
     
     @Column(name = "SITE_NAME")
     public String getSiteName() {
-        return this.siteName;
+        return siteNameProperty().get();
     }
     
     public void setSiteName(String siteName) {
-        this.siteName = siteName;
+        this.siteName.set(siteName);
     }
+    
+    public StringProperty siteNameProperty() {
+        return this.siteName;
+    }
+
     
     @Column(name = "SITE_WEBSITE")
     public String getSiteWebsite() {
@@ -104,6 +112,16 @@ public class Site  implements java.io.Serializable {
     public void setSiteWebsite(String siteWebsite) {
         this.siteWebsite = siteWebsite;
     }
+
+    @Column(name = "SITE_EMAIL")
+    public String getSiteEmail() {
+        return siteEmail;
+    }
+
+    public void setSiteEmail(String siteEmail) {
+        this.siteEmail = siteEmail;
+    }    
+    
     
     @Column(name = "SITE_OFFICE_PHONE")
     public String getSiteOfficePhone() {

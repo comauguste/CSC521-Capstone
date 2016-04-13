@@ -28,6 +28,7 @@ public class Users implements java.io.Serializable {
 
     private Integer pkUserId ;
     private int fkJobTitleCode;
+    //TO DOOOOO: Initialize attribute inside constructor.
     private StringProperty firstName = new SimpleStringProperty(this, "FIRST_NAME");
     private StringProperty lastName = new SimpleStringProperty(this, "LAST_NAME");
     private ObjectProperty<Date> birthDate = new SimpleObjectProperty<>(this, "BIRTH_DATE");

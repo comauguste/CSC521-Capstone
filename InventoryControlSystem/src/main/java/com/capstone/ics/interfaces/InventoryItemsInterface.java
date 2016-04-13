@@ -5,15 +5,16 @@
  */
 package com.capstone.ics.interfaces;
 
-import com.capstone.ics.model.Users;
+import com.capstone.ics.model.InventoryItems;
 import java.util.List;
 import javafx.collections.ObservableList;
 
 /**
  *
  * @author Auguste C
+ * @param <T>
  */
-public interface UsersDaoInterface<T> {
+public interface InventoryItemsInterface<T> {
 
     public void save(T entity);
 
@@ -23,8 +24,7 @@ public interface UsersDaoInterface<T> {
 
     public void delete(T entity);
 
-    public List<T> getAllUsers();
+    public List<T> getAllItems();
 
-    public ObservableList<Users> getUsersAsObservableList();
-
+    public ObservableList<InventoryItems> getItemsAsObservableList();
 }

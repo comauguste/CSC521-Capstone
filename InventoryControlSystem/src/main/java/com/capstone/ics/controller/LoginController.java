@@ -7,6 +7,7 @@ package com.capstone.ics.controller;
 
 import com.capstone.ics.DAO.CredentialsDAO;
 import com.capstone.ics.model.Credentials;
+import com.capstone.ics.service.CredentialsService;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,8 +40,8 @@ public class LoginController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        CredentialsDAO usersList = new CredentialsDAO();
-        users = usersList.retrieveAllowedUsers();
+        CredentialsService aService = new CredentialsService();
+        users = aService.getApproveUsers();
 
     }
 
