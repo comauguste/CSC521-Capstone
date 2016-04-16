@@ -72,7 +72,6 @@
                         <Label text="Access Level" GridPane.columnIndex="2" GridPane.rowIndex="4" />
                         <Label text="Can access Reports" GridPane.columnIndex="2" GridPane.rowIndex="5" />
                         <Label text="Can acess logs" GridPane.columnIndex="2" GridPane.rowIndex="6" />
-                        <Label text="Label" GridPane.columnIndex="2" GridPane.rowIndex="7" />
                         <Label fx:id="stateLabel" text="Label" GridPane.columnIndex="3" />
                         <Label fx:id="postalCodeLabel" text="Label" GridPane.columnIndex="3" GridPane.rowIndex="1" />
                         <Label fx:id="countryLabel" text="Label" GridPane.columnIndex="3" GridPane.rowIndex="2" />
@@ -80,7 +79,6 @@
                         <Label fx:id="accessLevelLabel" text="Label" GridPane.columnIndex="3" GridPane.rowIndex="4" />
                         <Label fx:id="reportLabel" text="Label" GridPane.columnIndex="3" GridPane.rowIndex="5" />
                         <Label fx:id="logLabel" text="Label" GridPane.columnIndex="3" GridPane.rowIndex="6" />
-                        <Label text="Label" GridPane.columnIndex="3" GridPane.rowIndex="7" />
                      </children>
                   </GridPane>
                   <ButtonBar layoutX="350.0" layoutY="437.0" prefHeight="40.0" prefWidth="286.0" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="50.0">

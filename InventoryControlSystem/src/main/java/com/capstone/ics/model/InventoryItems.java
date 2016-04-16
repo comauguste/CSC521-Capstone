@@ -2,15 +2,22 @@ package com.capstone.ics.model;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 
@@ -19,8 +26,8 @@ import javax.persistence.Temporal;
 @Access(value = AccessType.PROPERTY)
 public class InventoryItems implements java.io.Serializable {
 
-    private Integer pkItemId;    
-    private int fkSiteId;
+    private Integer pkItemId;
+    private Users users;
     private StringProperty itemName = new SimpleStringProperty(this, "ITEM_NAME");
     private StringProperty itemCategory = new SimpleStringProperty(this, "ITEM_CATEGORY");
     private String itemType;
@@ -35,30 +42,18 @@ public class InventoryItems implements java.io.Serializable {
     private Date lastUpdatedDate;
     private String createdBy;
     private Date createdDate;
+    private Set<SiteItemsQuantity> siteItemsQuantities = new HashSet<SiteItemsQuantity>(0);   
 
     public InventoryItems() {
     }
 
-    public InventoryItems(RefItemCategories refItemCategories, int fkSiteId, String lastUpdatedBy, Date lastUpdatedDate, String createdBy, Date createdDate) {
-//        this.refItemCategories = refItemCategories;
-        this.fkSiteId = fkSiteId;
-        this.lastUpdatedBy = lastUpdatedBy;
-        this.lastUpdatedDate = lastUpdatedDate;
-        this.createdBy = createdBy;
-        this.createdDate = createdDate;
+    public InventoryItems(Users users) {
+        this.users = users;
     }
 
-    public InventoryItems(RefItemCategories refItemCategories, String itemName, String itemType, String itemDescription, BigDecimal itemPrice) {
-//        this.refItemCategories = refItemCategories;
-        setItemName(itemName);
-        this.itemType = itemType;
-        this.itemDescription = itemDescription;
-        this.itemPrice = itemPrice;
-    }
-
-    public InventoryItems(RefItemCategories refItemCategories, int fkSiteId, String itemName, String itemType, String itemDescription, BigDecimal itemPrice, BigDecimal itemCost, Integer reorderLevel, String otherItemDetails, Integer quantityInStock, Integer isActive, String lastUpdatedBy, Date lastUpdatedDate, String createdBy, Date createdDate) {
-//        this.refItemCategories = refItemCategories;
-        this.fkSiteId = fkSiteId;
+    public InventoryItems(Users users, String itemCategory, String itemName, String itemType, String itemDescription, BigDecimal itemPrice, BigDecimal itemCost, Integer reorderLevel, String otherItemDetails, Integer quantityInStock, Integer isActive, String lastUpdatedBy, Date lastUpdatedDate, String createdBy, Date createdDate, Set siteItemsQuantities) {
+        this.users = users;
+        setItemCategory(itemCategory);
         setItemName(itemName);
         this.itemType = itemType;
         this.itemDescription = itemDescription;
@@ -72,6 +67,7 @@ public class InventoryItems implements java.io.Serializable {
         this.lastUpdatedDate = lastUpdatedDate;
         this.createdBy = createdBy;
         this.createdDate = createdDate;
+        this.siteItemsQuantities = siteItemsQuantities;
     }
 
     @Id
@@ -85,6 +81,16 @@ public class InventoryItems implements java.io.Serializable {
         this.pkItemId = pkItemId;
     }
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "FK_USER_ID", unique = true, nullable = false)
+    public Users getUsers() {
+        return this.users;
+    }
+
+    public void setUsers(Users users) {
+        this.users = users;
+    }
+
     @Column(name = "ITEM_CATEGORY")
     public String getItemCategory() {
         return itemCategoryProperty().get();
@@ -93,18 +99,9 @@ public class InventoryItems implements java.io.Serializable {
     public void setItemCategory(String itemCategory) {
         this.itemCategory.set(itemCategory);
     }
-    
+
     public StringProperty itemCategoryProperty() {
         return this.itemCategory;
-    }
-        
-    @Column(name = "FK_SITE_ID")
-    public int getFkSiteId() {
-        return this.fkSiteId;
-    }
-
-    public void setFkSiteId(int fkSiteId) {
-        this.fkSiteId = fkSiteId;
     }
 
     @Column(name = "ITEM_NAME")
@@ -229,5 +226,16 @@ public class InventoryItems implements java.io.Serializable {
     public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
     }
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "id.item", cascade = CascadeType.ALL)
+    public Set<SiteItemsQuantity> getSiteItemsQuantities() {
+        return siteItemsQuantities;
+    }
+
+    public void setSiteItemsQuantities(Set siteItemsQuantities) {
+        this.siteItemsQuantities = siteItemsQuantities;
+    }
+    
+    
 
 }

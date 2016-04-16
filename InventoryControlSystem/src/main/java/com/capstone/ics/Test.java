@@ -45,7 +45,6 @@ public class Test {
         user.setGender("F");
         user.setBirthDate(new Date());
         user.setPhoneNumber("234823402348");
-        user.setFkJobTitleCode(5);
 
         Credentials aCredentials = new Credentials();
         aCredentials.setUsername("tester");

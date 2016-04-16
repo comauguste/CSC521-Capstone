@@ -1,17 +1,21 @@
 package com.capstone.ics.model;
 // Generated Mar 23, 2016 6:34:53 PM by Hibernate Tools 4.3.1
 
-
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 
@@ -21,94 +25,93 @@ import javax.persistence.Temporal;
 @Entity
 @Table(name = "site")
 @Access(value = AccessType.PROPERTY)
-public class Site  implements java.io.Serializable {
+public class Site implements java.io.Serializable {
 
-
-     private Integer pkSiteId;
-     private int fkSiteUserId;
-     private StringProperty siteName = new SimpleStringProperty(this, "SITE_NAME");
-     private String siteWebsite;
-     private String siteEmail;
-     private String siteOfficePhone;
-     private String siteFax;
-     private String siteAddressLine1;
-     private String siteAddressLine2;
-     private String siteCity;
-     private String siteState;
-     private String siteZipCode;
-     private String lastUpdatedBy;
-     private Date lastUpdatedDate;
-     private String createdBy;
-     private String createdDate;
+    private Integer pkSiteId;
+    private int mainOfficeId;
+    private StringProperty siteName = new SimpleStringProperty(this, "SITE_NAME");
+    private String siteWebsite;
+    private String siteEmail;
+    private StringProperty siteOfficePhone = new SimpleStringProperty(this, "SITE_NUMBER");
+    ;
+    private String siteFax;
+    private String siteAddressLine1;
+    private String siteAddressLine2;
+    private StringProperty siteCity = new SimpleStringProperty(this, "SITE_CITY");
+    private StringProperty siteState = new SimpleStringProperty(this, "SITE_STATE");
+    private String siteZipCode;
+    private String lastUpdatedBy;
+    private Date lastUpdatedDate;
+    private String createdBy;
+    private String createdDate;
+    private Set<SiteItemsQuantity> siteItemsQuantities = new HashSet<>(0);
 
     public Site() {
     }
 
-	
     public Site(int fkSiteUserId, String lastUpdatedBy, Date lastUpdatedDate, String createdBy, String createdDate) {
-        this.fkSiteUserId = fkSiteUserId;
+        this.mainOfficeId = fkSiteUserId;
         this.lastUpdatedBy = lastUpdatedBy;
         this.lastUpdatedDate = lastUpdatedDate;
         this.createdBy = createdBy;
         this.createdDate = createdDate;
     }
+
     public Site(int fkSiteUserId, String siteName, String siteWebsite, String siteOfficePhone, String siteFax, String siteAddressLine1, String siteAddressLine2, String siteCity, String siteState, String siteZipCode, String lastUpdatedBy, Date lastUpdatedDate, String createdBy, String createdDate) {
-       this.fkSiteUserId = fkSiteUserId;
-       setSiteName(siteName);
-       this.siteWebsite = siteWebsite;
-       this.siteOfficePhone = siteOfficePhone;
-       this.siteFax = siteFax;
-       this.siteAddressLine1 = siteAddressLine1;
-       this.siteAddressLine2 = siteAddressLine2;
-       this.siteCity = siteCity;
-       this.siteState = siteState;
-       this.siteZipCode = siteZipCode;
-       this.lastUpdatedBy = lastUpdatedBy;
-       this.lastUpdatedDate = lastUpdatedDate;
-       this.createdBy = createdBy;
-       this.createdDate = createdDate;
+        this.mainOfficeId = fkSiteUserId;
+        setSiteName(siteName);
+        this.siteWebsite = siteWebsite;
+        setSiteOfficePhone(siteOfficePhone);
+        this.siteFax = siteFax;
+        this.siteAddressLine1 = siteAddressLine1;
+        this.siteAddressLine2 = siteAddressLine2;
+        setSiteCity(siteCity);
+        setSiteState(siteState);
+        this.siteZipCode = siteZipCode;
+        this.lastUpdatedBy = lastUpdatedBy;
+        this.lastUpdatedDate = lastUpdatedDate;
+        this.createdBy = createdBy;
+        this.createdDate = createdDate;
     }
-   
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "PK_SITE_ID")
     public Integer getPkSiteId() {
         return this.pkSiteId;
     }
-    
+
     public void setPkSiteId(Integer pkSiteId) {
         this.pkSiteId = pkSiteId;
     }
-    
-    @Column(name = "FK_SITE_USER_ID")
-    public int getFkSiteUserId() {
-        return this.fkSiteUserId;
+
+    @Column(name = "MAIN_OFFICE_ID")
+    public int getMainOfficeID() {
+        return this.mainOfficeId;
     }
-    
-    public void setFkSiteUserId(int fkSiteUserId) {
-        this.fkSiteUserId = fkSiteUserId;
+
+    public void setMainOfficeID(int mainOfficeID) {
+        this.mainOfficeId = mainOfficeID;
     }
-    
+
     @Column(name = "SITE_NAME")
     public String getSiteName() {
         return siteNameProperty().get();
     }
-    
+
     public void setSiteName(String siteName) {
         this.siteName.set(siteName);
     }
-    
+
     public StringProperty siteNameProperty() {
         return this.siteName;
     }
 
-    
     @Column(name = "SITE_WEBSITE")
     public String getSiteWebsite() {
         return this.siteWebsite;
     }
-    
+
     public void setSiteWebsite(String siteWebsite) {
         this.siteWebsite = siteWebsite;
     }
@@ -120,112 +123,127 @@ public class Site  implements java.io.Serializable {
 
     public void setSiteEmail(String siteEmail) {
         this.siteEmail = siteEmail;
-    }    
-    
-    
+    }
+
     @Column(name = "SITE_OFFICE_PHONE")
     public String getSiteOfficePhone() {
+        return siteOfficePhoneProperty().get();
+    }
+
+    public void setSiteOfficePhone(String siteOfficePhone) {
+        this.siteOfficePhone.set(siteOfficePhone);
+    }
+
+    public StringProperty siteOfficePhoneProperty() {
         return this.siteOfficePhone;
     }
-    
-    public void setSiteOfficePhone(String siteOfficePhone) {
-        this.siteOfficePhone = siteOfficePhone;
-    }
-    
+
     @Column(name = "SITE_FAX")
     public String getSiteFax() {
         return this.siteFax;
     }
-    
+
     public void setSiteFax(String siteFax) {
         this.siteFax = siteFax;
     }
-    
+
     @Column(name = "SITE_ADDRESS_LINE_1")
     public String getSiteAddressLine1() {
         return this.siteAddressLine1;
     }
-    
+
     public void setSiteAddressLine1(String siteAddressLine1) {
         this.siteAddressLine1 = siteAddressLine1;
     }
-    
+
     @Column(name = "SITE_ADDRESS_LINE_2")
     public String getSiteAddressLine2() {
         return this.siteAddressLine2;
     }
-    
+
     public void setSiteAddressLine2(String siteAddressLine2) {
         this.siteAddressLine2 = siteAddressLine2;
     }
-    
+
     @Column(name = "SITE_CITY")
     public String getSiteCity() {
+        return siteCityProperty().get();
+    }
+
+    public void setSiteCity(String siteCity) {
+        this.siteCity.set(siteCity);
+    }
+
+    public StringProperty siteCityProperty() {
         return this.siteCity;
     }
-    
-    public void setSiteCity(String siteCity) {
-        this.siteCity = siteCity;
-    }
-    
+
     @Column(name = "SITE_STATE")
     public String getSiteState() {
-        return this.siteState;
+        return siteStateProperty().get();
     }
-    
+
     public void setSiteState(String siteState) {
-        this.siteState = siteState;
+        this.siteState.set(siteState);
+    }
+
+    public StringProperty siteStateProperty() {
+        return this.siteCity;
     }
     
     @Column(name = "SITE_ZIP_CODE")
     public String getSiteZipCode() {
         return this.siteZipCode;
     }
-    
+
     public void setSiteZipCode(String siteZipCode) {
         this.siteZipCode = siteZipCode;
     }
-    
+
     @Column(name = "LAST_UPDATED_BY")
     public String getLastUpdatedBy() {
         return this.lastUpdatedBy;
     }
-    
+
     public void setLastUpdatedBy(String lastUpdatedBy) {
         this.lastUpdatedBy = lastUpdatedBy;
     }
-    
+
     @Column(name = "LAST_UPDATED_DATE")
     @Temporal(javax.persistence.TemporalType.DATE)
     public Date getLastUpdatedDate() {
         return this.lastUpdatedDate;
     }
-    
+
     public void setLastUpdatedDate(Date lastUpdatedDate) {
         this.lastUpdatedDate = lastUpdatedDate;
     }
-    
+
     @Column(name = "CREATED_BY")
     public String getCreatedBy() {
         return this.createdBy;
     }
-    
+
     public void setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
     }
-    
+
     @Column(name = "CREATED_DATE")
     public String getCreatedDate() {
         return this.createdDate;
     }
-    
+
     public void setCreatedDate(String createdDate) {
         this.createdDate = createdDate;
     }
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "id.site")
+    public Set<SiteItemsQuantity> getSiteItemsQuantities() {
+        return siteItemsQuantities;
+    }
 
-
+    public void setSiteItemsQuantities(Set siteItemsQuantities) {
+        this.siteItemsQuantities = siteItemsQuantities;
+    }
 
 }
-
-

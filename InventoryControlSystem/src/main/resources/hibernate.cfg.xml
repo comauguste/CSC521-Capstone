@@ -9,11 +9,14 @@
     <property name="hibernate.connection.password">Journey1</property>
     <property name="hibernate.show_sql">true</property>
     <property name="hibernate.query.factory_class">org.hibernate.hql.internal.classic.ClassicQueryTranslatorFactory</property>
+    <property name="hibernate.format_sql">false</property>
     <mapping class="com.capstone.ics.model.Users"/>
     <mapping class="com.capstone.ics.model.Credentials"/>
     <mapping class="com.capstone.ics.model.UserAddresses"/>
-    <mapping class="com.capstone.ics.model.Site"/>    
+    <mapping class="com.capstone.ics.model.Site"/>
     <mapping class="com.capstone.ics.model.InventoryItems"/>
     <mapping class="com.capstone.ics.model.RefItemCategories"/>
+    <mapping class="com.capstone.ics.model.SiteItemsQuantity"/>
+    <mapping class="com.capstone.ics.model.SiteItemsQuantityId"/>
   </session-factory>
 </hibernate-configuration>

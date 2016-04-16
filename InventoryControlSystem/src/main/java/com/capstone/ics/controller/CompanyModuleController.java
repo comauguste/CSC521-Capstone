@@ -7,12 +7,18 @@ package com.capstone.ics.controller;
 
 import com.capstone.ics.model.Site;
 import com.capstone.ics.service.CompanyService;
+import java.io.IOException;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeTableColumn;
-import javafx.scene.control.TreeTableView;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -22,20 +28,11 @@ import javafx.scene.control.TreeTableView;
 public class CompanyModuleController {
 
     @FXML
-    private TreeTableView<Site> companyInformationTable;
+    private TableView<Site> warehouseTable;
 
     @FXML
-    private TreeTableColumn subLocationColumn;
-
-    @FXML
-    private TreeTableColumn cityColumn;
-
-    @FXML
-    private TreeTableColumn stateColumn;
-
-    @FXML
-    private TreeTableColumn phoneNumberColumn;
-
+    private TableColumn<Site, String> warehouseNameColumn, cityColumn, stateColumn, phoneNumberColumn;
+   
     @FXML
     private TextField companyNameField;
 
@@ -73,16 +70,21 @@ public class CompanyModuleController {
     
 
     @FXML
-    private void initialize() {
-        //Setting the tree table
-        TreeItem<String> root = new TreeItem<>("Main Office");
-        
+    private void initialize() {        
         company = new Site();
         companyService = new CompanyService();
         Site aSite = companyService.getCompanyInformation();
         showCompanyDetails(aSite);
+        
+        warehouseTable.setItems(companyService.getBranchAsObservableList());
+        
+        //Initialize the sub-location table with the two columns
+        warehouseNameColumn.setCellValueFactory(CellData -> CellData.getValue().siteNameProperty());
+        cityColumn.setCellValueFactory(CellData -> CellData.getValue().siteCityProperty());
+        stateColumn.setCellValueFactory(CellData -> CellData.getValue().siteStateProperty());
+        phoneNumberColumn.setCellValueFactory(CellData -> CellData.getValue().siteOfficePhoneProperty());
     }
-
+    
     private void handleTreeTableView()
     {
         
@@ -144,6 +146,54 @@ public class CompanyModuleController {
     }
 
     @FXML
+    private void handleNewBranch() {
+        Site tempSite = new Site();
+       
+        boolean okClicked = showBranchEditDialog(tempSite);
+        if (okClicked) {
+            companyService.getSiteData().add(tempSite);
+            companyService.saveNewBranch(tempSite);
+        }
+    }
+    
+    @FXML
+    private void handleUpdateSelectedBranch() {
+        Site selectedSite = warehouseTable.getSelectionModel().getSelectedItem();
+        if (selectedSite != null) {            
+            boolean okClicked = showBranchEditDialog(selectedSite);
+            if (okClicked) {
+                showCompanyDetails(selectedSite);
+                companyService.updateCompanyInformation(selectedSite);
+            }
+
+        } else {
+            // Nothing selected.
+            Alert alert = new Alert(AlertType.WARNING);
+            alert.setTitle("No Selection");
+            alert.setHeaderText("No Person Selected");
+            alert.setContentText("Please select a person in the table.");
+
+            alert.showAndWait();
+        }
+    }
+    
+    @FXML
+    private void handleDeleteSelectedBranch() {
+         int selectedIndex = warehouseTable.getSelectionModel().getSelectedIndex();
+        Site selectedSite = warehouseTable.getSelectionModel().getSelectedItem();
+        if (selectedIndex >= 0) {
+            warehouseTable.getItems().remove(selectedIndex);
+            companyService.delete(selectedSite.getPkSiteId());
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("No Selection");
+            alert.setHeaderText("No Site Selected");
+            alert.setContentText("Please select a site in the table");
+
+            alert.showAndWait();
+        }
+    }
+    @FXML
     private void handleCancel() {
 
     }
@@ -178,6 +228,35 @@ public class CompanyModuleController {
 
     public boolean isOkClicked() {
         return okCliked;
+    }
+    
+    public boolean showBranchEditDialog(Site aSite) {
+        try {
+
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/fxml/BranchPage.fxml"));
+            AnchorPane page = (AnchorPane) loader.load();
+
+            // Create the dialog Stage. 
+            Scene scene = new Scene(page);
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Edit Branch Information");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.setScene(scene);
+
+            // Set the user into the controller.
+            BranchPageController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            controller.setBranch(aSite);
+
+            // Show the dialog and wait until the user closes it
+            dialogStage.showAndWait();
+
+            return controller.isOkClicked();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
 }

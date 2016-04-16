@@ -25,6 +25,6 @@ public interface UsersDaoInterface<T> {
 
     public List<T> getAllUsers();
 
-    public ObservableList<Users> getUsersAsObservableList();
+    public ObservableList<T> getUsersAsObservableList();
 
 }

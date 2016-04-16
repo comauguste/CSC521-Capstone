@@ -16,36 +16,72 @@ import javafx.collections.ObservableList;
  */
 public class CompanyService {
 
-    private static SiteDAO aSite;
+    private static SiteDAO siteDAO;
     private ObservableList<Site> observableSitesLists;
 
     public CompanyService() {
-        aSite = new SiteDAO();
+        siteDAO = new SiteDAO();
     }
 
     public static SiteDAO getaSite() {
-        return aSite;
+        return siteDAO;
+    }
+
+    public void saveNewBranch(Site theCompany) {
+        HibernateUtil.openCurrentSessionWithTransaction();
+        siteDAO.saveBranch(theCompany);
+        HibernateUtil.closeCurrentSessionWithTransaction();
     }
 
     public void updateCompanyInformation(Site theCompany) {
         HibernateUtil.openCurrentSessionWithTransaction();
-        aSite.updateCompanyInformation(theCompany);
+        siteDAO.updateCompanyInformation(theCompany);
         HibernateUtil.closeCurrentSessionWithTransaction();
     }
 
+     public Site findById(Integer id) {
+        HibernateUtil.openCurrentSession();
+        Site aSite = siteDAO.findById(id);
+        HibernateUtil.closeCurrentSession();
+
+        return aSite;
+    }
+
+    //Do not forget to change the ID data type from String TO int or long( whatever appropriate   
+    public void delete(Integer id) {
+        HibernateUtil.openCurrentSessionWithTransaction();
+        Site aUser = siteDAO.findById(id);
+        siteDAO.delete(aUser);
+        HibernateUtil.closeCurrentSessionWithTransaction();
+    }
+    
     public Site getCompanyInformation() {
         HibernateUtil.openCurrentSession();
-        Site theCompany = aSite.getCompanyInformation();
+        Site theCompany = siteDAO.getCompanyInformation();
         HibernateUtil.closeCurrentSession();
         return theCompany;
     }
 
     public ObservableList<Site> getSitesAsObservableList() {
         HibernateUtil.openCurrentSession();
-        observableSitesLists = aSite.getSitesAsObservableList();
+        observableSitesLists = siteDAO.getSitesAsObservableList();
         HibernateUtil.closeCurrentSession();
 
         return observableSitesLists;
     }
+    
+    public ObservableList<Site> getBranchAsObservableList() {
+        
+        HibernateUtil.openCurrentSession();
+        observableSitesLists = siteDAO.getBranchesAsObservableList();
+        HibernateUtil.closeCurrentSession();
 
+        return observableSitesLists;
+        
+    }
+
+     public ObservableList<Site> getSiteData() {
+        return observableSitesLists;
+    }
+    
 }

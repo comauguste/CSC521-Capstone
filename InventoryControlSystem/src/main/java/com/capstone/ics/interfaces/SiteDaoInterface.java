@@ -5,18 +5,28 @@
  */
 package com.capstone.ics.interfaces;
 
-
 import com.capstone.ics.model.Site;
 import javafx.collections.ObservableList;
 
 /**
  *
  * @author Auguste C
+ * @param <T>
  */
 public interface SiteDaoInterface<T> {
 
     public void updateCompanyInformation(T entity);
+
+    public void saveBranch(T entity);
+
     public Site getCompanyInformation();
-    public ObservableList<Site> getSitesAsObservableList();
+
+    public T findById(Integer id);
+
+    public void delete(T entity);
+
+    public ObservableList<T> getBranchesAsObservableList();
+
+    public ObservableList<T> getSitesAsObservableList();
 
 }
