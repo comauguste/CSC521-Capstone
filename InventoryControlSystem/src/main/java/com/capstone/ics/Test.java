@@ -9,13 +9,16 @@ import com.capstone.ics.model.Credentials;
 import com.capstone.ics.model.InventoryItems;
 import com.capstone.ics.model.RefItemCategories;
 import com.capstone.ics.model.Site;
+import com.capstone.ics.model.SiteItemsQuantity;
 import com.capstone.ics.model.UserAddresses;
 import com.capstone.ics.model.Users;
 import com.capstone.ics.util.HibernateUtil;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import org.hibernate.Session;
 
 /**
@@ -25,16 +28,63 @@ import org.hibernate.Session;
 public class Test {
 
     public static void main(String[] args) {
-        
-        RefItemCategories newCategory = new RefItemCategories("Vehicle","This is a test");       
-        
-        
+
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        session.save(newCategory);
+
+        InventoryItems item = (InventoryItems) session.get(InventoryItems.class, 7);
+        List<SiteItemsQuantity> sites = new ArrayList<>();
+        sites.addAll(item.getSiteItemsQuantities());
+
+        for (SiteItemsQuantity site : sites) {
+            System.out.println("Inventory name: " + site.getSite().getSiteName() + " Item Name: " + site.getInventoryItems().getItemName() +
+                    "Item Quantity: "+ site.quantityIntegerProperty());
+        }
+
         session.getTransaction().commit();
         session.close();
 
+    }
+
+    public void storeAnItemInManySites() {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+
+        Users user = (Users) session.get(Users.class, 1);
+
+        InventoryItems item = new InventoryItems();
+
+        item.setItemName("Computers");
+        item.setItemCategory("Laptops");
+        item.setCreatedBy("Auguste");
+        item.setItemCost(BigDecimal.ZERO);
+        item.setReorderLevel(Integer.MIN_VALUE);
+        item.setItemPrice(BigDecimal.ZERO);
+        item.setUsers(user);
+        item.setQuantityInStock(20);
+
+        Site site1 = (Site) session.get(Site.class, 4);
+        Site site2 = (Site) session.get(Site.class, 6);
+
+        //Store item in 1st site
+        SiteItemsQuantity siteItem1 = new SiteItemsQuantity();
+        siteItem1.setItemQuantity(Integer.MIN_VALUE);
+        siteItem1.setInventoryItems(item);
+        siteItem1.setSite(site1);
+        item.addSiteItemsQuantities(siteItem1);
+
+        //Store item in 2nd site
+        SiteItemsQuantity siteItem2 = new SiteItemsQuantity();
+        siteItem2.setItemQuantity(Integer.MIN_VALUE);
+        siteItem2.setInventoryItems(item);
+        siteItem2.setSite(site2);
+
+        item.addSiteItemsQuantities(siteItem2);
+
+        session.save(item);
+
+        session.getTransaction().commit();
+        session.close();
     }
 
     public void testDbConnectionToUser() {

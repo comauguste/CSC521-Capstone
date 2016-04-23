@@ -4,7 +4,7 @@
   <session-factory>
     <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
     <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-    <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/inventory_system?zeroDateTimeBehavior=convertToNull</property>
+    <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/inventory_system?useSSL=false</property>
     <property name="hibernate.connection.username">comauguste</property>
     <property name="hibernate.connection.password">Journey1</property>
     <property name="hibernate.show_sql">true</property>
@@ -18,5 +18,6 @@
     <mapping class="com.capstone.ics.model.RefItemCategories"/>
     <mapping class="com.capstone.ics.model.SiteItemsQuantity"/>
     <mapping class="com.capstone.ics.model.SiteItemsQuantityId"/>
+    <mapping class="com.capstone.ics.model.AuditLog"/>
   </session-factory>
 </hibernate-configuration>

@@ -42,7 +42,8 @@ public class InventoryItems implements java.io.Serializable {
     private Date lastUpdatedDate;
     private String createdBy;
     private Date createdDate;
-    private Set<SiteItemsQuantity> siteItemsQuantities = new HashSet<SiteItemsQuantity>(0);   
+    private Set<SiteItemsQuantity> siteItemsQuantities = new HashSet<SiteItemsQuantity>(0);
+    private byte[] itemImage;
 
     public InventoryItems() {
     }
@@ -227,15 +228,26 @@ public class InventoryItems implements java.io.Serializable {
         this.createdDate = createdDate;
     }
 
+    @Column(name = "ITEM_IMAGE")
+    public byte[] getItemImage() {
+        return this.itemImage;
+    }
+
+    public void setItemImage(byte[] itemImage) {
+        this.itemImage = itemImage;
+    }
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "id.item", cascade = CascadeType.ALL)
     public Set<SiteItemsQuantity> getSiteItemsQuantities() {
         return siteItemsQuantities;
     }
 
-    public void setSiteItemsQuantities(Set siteItemsQuantities) {
+    public void setSiteItemsQuantities(Set<SiteItemsQuantity> siteItemsQuantities) {
         this.siteItemsQuantities = siteItemsQuantities;
     }
-    
-    
+
+    public void addSiteItemsQuantities(SiteItemsQuantity siteItemsQuantity) {
+        this.siteItemsQuantities.add(siteItemsQuantity);
+    }
 
 }

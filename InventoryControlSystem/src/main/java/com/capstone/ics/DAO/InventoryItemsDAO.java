@@ -7,6 +7,7 @@ package com.capstone.ics.DAO;
 
 import com.capstone.ics.interfaces.InventoryItemsInterface;
 import com.capstone.ics.model.InventoryItems;
+import com.capstone.ics.model.SiteItemsQuantity;
 import com.capstone.ics.util.HibernateUtil;
 import java.util.ArrayList;
 import java.util.List;
@@ -61,6 +62,8 @@ public class InventoryItemsDAO implements InventoryItemsInterface<InventoryItems
         observableItemsList = FXCollections.observableArrayList(items);
         return observableItemsList;
     }
+
+    
    
 
 }

@@ -26,10 +26,10 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "users")
 @Access(value = AccessType.PROPERTY)
-public class Users implements java.io.Serializable {
+public class Users implements java.io.Serializable{
 
     private Integer pkUserId;
-    private List<InventoryItems> items = new ArrayList<>();
+//    private List<InventoryItems> items = new ArrayList<>();
     //TO DOOOOO: Initialize attribute inside constructor.
     private StringProperty firstName = new SimpleStringProperty(this, "FIRST_NAME");
     private StringProperty lastName = new SimpleStringProperty(this, "LAST_NAME");
@@ -97,14 +97,14 @@ public class Users implements java.io.Serializable {
         this.pkUserId = pkUserId;
     }
 
-    @OneToMany(cascade = CascadeType.ALL)
-    public List<InventoryItems> getItems() {
-        return items;
-    }
-
-    public void setItems(List<InventoryItems> items) {
-        this.items = items;
-    }
+//    @OneToMany(cascade = CascadeType.ALL)
+//    public List<InventoryItems> getItems() {
+//        return items;
+//    }
+//
+//    public void setItems(List<InventoryItems> items) {
+//        this.items = items;
+//    }
 
     @Column(name = "FIRST_NAME")
     public String getFirstName() {
@@ -267,4 +267,6 @@ public class Users implements java.io.Serializable {
         this.userCredentials = userCredentials;
     }
 
+    
+    
 }

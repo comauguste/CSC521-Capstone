@@ -5,12 +5,15 @@
  */
 package com.capstone.ics.controller;
 
+import com.capstone.ics.model.AuditLog;
 import com.capstone.ics.model.Credentials;
 import com.capstone.ics.model.UserAddresses;
 import com.capstone.ics.model.Users;
+import com.capstone.ics.service.LogService;
 import com.capstone.ics.service.UserService;
 import com.capstone.ics.util.DateUtil;
 import java.io.IOException;
+import java.util.Date;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -70,10 +73,12 @@ public class UsersManagerController {
     private final StageManager aStage = new StageManager();
 
     private UserService userService;
+    private LogService logService;
 
     @FXML
     private void initialize() {
         userService = new UserService();
+        logService = new LogService();
         personTable.setItems(userService.getUsersAsObservableList());
 
         //Initialize the person table with the two columns
@@ -134,6 +139,7 @@ public class UsersManagerController {
     @FXML
     private void handleNewUser() {
         Users tempUser = new Users();
+        String actionPerformed = "New User";
         UserAddresses tempAddresses = new UserAddresses();
         Credentials tempCredentials = new Credentials();
 
@@ -147,7 +153,16 @@ public class UsersManagerController {
             tempUser.setUserCredentials(tempCredentials);
 
             userService.save(tempUser);
+            
+            logIt(tempUser, actionPerformed);
         }
+    }
+
+    private void logIt(Users tempUser, String activity) {
+        AuditLog log = new AuditLog("admin", "User module", activity, getUserDetails(tempUser)
+                , new Date());
+        
+        logService.save(log);
     }
 
     /**
@@ -157,6 +172,7 @@ public class UsersManagerController {
     @FXML
     private void handleEditPerson() {
         Users selectedUser = personTable.getSelectionModel().getSelectedItem();
+        String actionPerformed = "Update User";
         if (selectedUser != null) {
             UserAddresses selectedUserAddresses = selectedUser.getAddress();
             Credentials selectedUserCredentials = selectedUser.getUserCredentials();
@@ -164,6 +180,7 @@ public class UsersManagerController {
             if (okClicked) {
                 showUserDetails(selectedUser);
                 userService.update(selectedUser);
+                logIt(selectedUser, actionPerformed);
             }
 
         } else {
@@ -184,9 +201,11 @@ public class UsersManagerController {
     public void deleteSelectedUser() {
         int selectedIndex = personTable.getSelectionModel().getSelectedIndex();
         Users selectedUser = personTable.getSelectionModel().getSelectedItem();
+        String actionPerformed = "Delete User";
         if (selectedIndex >= 0) {
             personTable.getItems().remove(selectedIndex);
             userService.delete(selectedUser.getPkUserId());
+            logIt(selectedUser, actionPerformed);
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("No Selection");
@@ -225,5 +244,14 @@ public class UsersManagerController {
             e.printStackTrace();
             return false;
         }
+    }
+    
+    private String getUserDetails(Users aUser)
+    {
+         StringBuilder sb = new StringBuilder();
+        sb.append(" User Id: ").append(aUser.getPkUserId()).append(" User name: ")
+                .append(aUser.getFirstName()).append(" ").append(aUser.getLastName());
+        
+        return sb.toString();
     }
 }

@@ -78,4 +78,11 @@ public class UserService {
     public ObservableList<Users> getUsersData() {
         return observableUsersLists;
     }
+    
+    
+    public static void main(String[] args) {
+        UserService test = new UserService();
+        Users aUser = test.findById(1);
+        System.out.println(aUser.getFirstName());
+    }
 }

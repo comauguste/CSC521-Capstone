@@ -35,33 +35,25 @@
                           <columnConstraints>
                             <ColumnConstraints hgrow="SOMETIMES" maxWidth="131.5" minWidth="10.0" prefWidth="84.0" />
                             <ColumnConstraints hgrow="SOMETIMES" maxWidth="211.0" minWidth="10.0" prefWidth="209.5" />
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="190.0" minWidth="10.0" prefWidth="44.5" />
                           </columnConstraints>
                           <rowConstraints>
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <Label text="Search" />
-                              <Label text="Item Name" GridPane.rowIndex="1" />
-                              <Label text="Category" GridPane.rowIndex="2" />
+                              <Label text="Filter Table">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font></Label>
+                              <Label text="Start Typing" GridPane.rowIndex="1">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font></Label>
                               <TextField fx:id="sItemNameField" prefHeight="25.0" prefWidth="180.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                              <Button fx:id="refreshButton" mnemonicParsing="false" text="Refresh" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                                 <GridPane.margin>
-                                    <Insets left="130.0" />
-                                 </GridPane.margin>
-                              </Button>
-                              <ImageView fx:id="addCategory" fitHeight="29.0" fitWidth="29.0" onMouseClicked="#goToCategoryManagerWindow" pickOnBounds="true" preserveRatio="true" styleClass="mainFxmlClass" GridPane.columnIndex="2" GridPane.rowIndex="2">
-                                 <image>
-                                    <Image url="@../images/plus.png" />
-                                 </image>
-                              </ImageView>
-                              <ComboBox fx:id="sCategoryComboBox" prefHeight="25.0" prefWidth="190.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <Label text="by Item name or Item category" GridPane.columnIndex="1" />
                            </children>
                         </GridPane>
-                        <TableView fx:id="itemTable" layoutX="55.0" layoutY="189.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="140.0">
+                        <TableView fx:id="itemTable" layoutX="55.0" layoutY="189.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="90.0">
                           <columns>
                             <TableColumn fx:id="itemsColumn" prefWidth="75.0" text="Item" />
                             <TableColumn fx:id="categoryColumn" prefWidth="75.0" text="Category" />
@@ -75,12 +67,14 @@
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                      <children>
                         <HBox layoutX="109.0" layoutY="14.0" prefHeight="25.0" prefWidth="698.0" AnchorPane.bottomAnchor="553.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                        <VBox layoutX="92.0" layoutY="228.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="370.0" AnchorPane.topAnchor="20.0">
+                        <VBox layoutX="92.0" layoutY="228.0" prefHeight="548.0" prefWidth="372.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="316.0" AnchorPane.topAnchor="20.0">
                            <children>
-                              <GridPane prefHeight="400.0" prefWidth="338.0">
+                              <GridPane prefHeight="363.0" prefWidth="345.0">
                                 <columnConstraints>
-                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="159.0" minWidth="10.0" prefWidth="102.33334350585938" />
-                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="237.0" minWidth="10.0" prefWidth="235.66665649414062" />
+                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="159.0" minWidth="10.0" prefWidth="104.33334350585938" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="286.66668701171875" minWidth="10.0" prefWidth="11.666656494140625" />
+                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="286.66668701171875" minWidth="10.0" prefWidth="221.33334350585938" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="237.0" minWidth="10.0" prefWidth="36.0" />
                                 </columnConstraints>
                                 <rowConstraints>
                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -110,31 +104,60 @@
                                     </Label>
                                     <Label text="Cost" GridPane.rowIndex="6" />
                                     <Label text="Selling Price" GridPane.rowIndex="7" />
-                                    <TextField fx:id="itemNameField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                    <TextField fx:id="costField" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                                    <TextField fx:id="sellingPriceField" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                                    <TextArea fx:id="descriptionField" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                    <TextField fx:id="itemNameField" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                    <TextField fx:id="costField" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+                                    <TextField fx:id="sellingPriceField" GridPane.columnIndex="2" GridPane.rowIndex="7" />
+                                    <TextArea fx:id="descriptionField" prefHeight="200.0" prefWidth="200.0" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="4" />
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Inventory" GridPane.rowIndex="8">
                                        <font>
                                           <Font name="System Bold" size="12.0" />
                                        </font>
                                     </Text>
-                                    <ComboBox fx:id="categoryComBox" prefHeight="25.0" prefWidth="233.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                    <ComboBox fx:id="itemTypeComboBox" prefHeight="25.0" prefWidth="230.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                    <ComboBox fx:id="categoryComBox" prefHeight="25.0" prefWidth="233.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                                    <ComboBox fx:id="itemTypeComboBox" prefHeight="25.0" prefWidth="230.0" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                                    <Label fx:id="saveProductText" text="SAVE YOUR PRODUCT IN ORDER TO ACCESS THE DEFINED WAREHOUSE " textFill="#f50707" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="8">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <ImageView fx:id="addCategory" fitHeight="29.0" fitWidth="29.0" onMouseClicked="#goToCategoryManagerWindow" pickOnBounds="true" preserveRatio="true" styleClass="mainFxmlClass" GridPane.columnIndex="3" GridPane.rowIndex="2">
+                                       <image>
+                                          <Image url="@../images/plus.png" />
+                                       </image>
+                                       <GridPane.margin>
+                                          <Insets left="5.0" />
+                                       </GridPane.margin>
+                                    </ImageView>
+                                    <Label text="\$" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                                    <Label text="\$" GridPane.columnIndex="1" GridPane.rowIndex="7" />
                                  </children>
                               </GridPane>
-                              <TableView fx:id="locationTable" editable="true" prefHeight="200.0" prefWidth="200.0">
+                              <TableView fx:id="warehouseTable" editable="true" prefHeight="175.0" prefWidth="366.0">
                                 <columns>
-                                  <TableColumn prefWidth="75.0" text="Location" />
-                                  <TableColumn prefWidth="75.0" text="Quantity" />
+                                  <TableColumn fx:id="locationColumn" prefWidth="249.66668701171875" text="Location" />
+                                  <TableColumn fx:id="quantityColumn" prefWidth="120.33331298828125" text="Quantity" />
                                 </columns>
                                  <columnResizePolicy>
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                  </columnResizePolicy>
                               </TableView>
+                              <HBox prefHeight="60.0" prefWidth="318.0">
+                                 <children>
+                                    <Label prefHeight="17.0" prefWidth="264.0" text=" Quantity on hand:">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="totalQuantityLabel" contentDisplay="RIGHT" prefHeight="17.0" prefWidth="148.0" text="0" textAlignment="RIGHT">
+                                       <HBox.margin>
+                                          <Insets left="25.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                 </children>
+                              </HBox>
                            </children>
                         </VBox>
-                        <VBox layoutX="458.0" layoutY="194.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="370.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="20.0">
+                        <VBox layoutX="398.0" layoutY="194.0" prefHeight="548.0" prefWidth="290.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="398.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="20.0">
                            <children>
                               <GridPane prefWidth="318.0">
                                 <columnConstraints>
@@ -158,11 +181,36 @@
                                     <TextField fx:id="reorderTresholdField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                  </children>
                               </GridPane>
+                              <GridPane prefHeight="257.0" prefWidth="290.0">
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="300.0" minWidth="10.0" prefWidth="159.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints maxHeight="210.33331298828125" minHeight="10.0" prefHeight="210.33331298828125" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="65.33334350585938" minHeight="10.0" prefHeight="29.66668701171875" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <VBox.margin>
+                                    <Insets bottom="-200.0" />
+                                 </VBox.margin>
+                                 <children>
+                                    <ImageView fx:id="itemImage" fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                                       <GridPane.margin>
+                                          <Insets left="50.0" />
+                                       </GridPane.margin>
+                                    </ImageView>
+                                    <ButtonBar prefHeight="40.0" prefWidth="200.0" GridPane.rowIndex="1">
+                                      <buttons>
+                                        <Button fx:id="BrowseButton" mnemonicParsing="false" onAction="#handleBrowse" text="Browse" />
+                                          <Button layoutX="225.0" layoutY="13.0" mnemonicParsing="false" text="Clear" />
+                                      </buttons>
+                                    </ButtonBar>
+                                 </children>
+                              </GridPane>
                               <ButtonBar prefHeight="40.0" prefWidth="200.0">
                                 <buttons>
                                   <Button fx:id="newItemButton" mnemonicParsing="false" onAction="#handleNewItem" text="New " />
                                     <Button fx:id="saveButton" layoutX="253.0" layoutY="18.0" mnemonicParsing="false" onAction="#saveOrUpdateItem" text="Save" />
-                                    <Button fx:id="deleteButton" layoutX="168.0" layoutY="18.0" mnemonicParsing="false" text="Delete" />
+                                    <Button fx:id="deleteButton" layoutX="168.0" layoutY="18.0" mnemonicParsing="false" onAction="#deleteSelectedItem" text="Delete" />
                                 </buttons>
                                  <VBox.margin>
                                     <Insets top="350.0" />

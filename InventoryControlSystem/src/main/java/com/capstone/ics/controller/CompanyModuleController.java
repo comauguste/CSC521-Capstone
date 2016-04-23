@@ -5,9 +5,12 @@
  */
 package com.capstone.ics.controller;
 
+import com.capstone.ics.model.AuditLog;
 import com.capstone.ics.model.Site;
 import com.capstone.ics.service.CompanyService;
+import com.capstone.ics.service.LogService;
 import java.io.IOException;
+import java.util.Date;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -25,6 +28,8 @@ import javafx.stage.Stage;
  *
  * @author Auguste C
  */
+
+
 public class CompanyModuleController {
 
     @FXML
@@ -32,7 +37,7 @@ public class CompanyModuleController {
 
     @FXML
     private TableColumn<Site, String> warehouseNameColumn, cityColumn, stateColumn, phoneNumberColumn;
-   
+
     @FXML
     private TextField companyNameField;
 
@@ -64,34 +69,33 @@ public class CompanyModuleController {
     private TextField websiteField;
 
     private CompanyService companyService;
+    private LogService logService;
     private Site company;
     private boolean okCliked = false;
-    
-    
 
     @FXML
-    private void initialize() {        
+    private void initialize() {
         company = new Site();
         companyService = new CompanyService();
+        logService = new LogService();
         Site aSite = companyService.getCompanyInformation();
         showCompanyDetails(aSite);
-        
+
         warehouseTable.setItems(companyService.getBranchAsObservableList());
-        
+
         //Initialize the sub-location table with the two columns
         warehouseNameColumn.setCellValueFactory(CellData -> CellData.getValue().siteNameProperty());
         cityColumn.setCellValueFactory(CellData -> CellData.getValue().siteCityProperty());
         stateColumn.setCellValueFactory(CellData -> CellData.getValue().siteStateProperty());
         phoneNumberColumn.setCellValueFactory(CellData -> CellData.getValue().siteOfficePhoneProperty());
     }
-    
-    private void handleTreeTableView()
-    {
-        
+
+    private void handleTreeTableView() {
+
     }
 
     private void showCompanyDetails(Site theCompany) {
-        
+
         //Note to myself: Need to revise this part -> Assignment of reference to local variable????
         company = theCompany;
 
@@ -148,22 +152,26 @@ public class CompanyModuleController {
     @FXML
     private void handleNewBranch() {
         Site tempSite = new Site();
-       
+        String actionPerformed = "New Branch";
+
         boolean okClicked = showBranchEditDialog(tempSite);
         if (okClicked) {
             companyService.getSiteData().add(tempSite);
             companyService.saveNewBranch(tempSite);
+            logIt(tempSite, actionPerformed);
         }
     }
-    
+
     @FXML
     private void handleUpdateSelectedBranch() {
         Site selectedSite = warehouseTable.getSelectionModel().getSelectedItem();
-        if (selectedSite != null) {            
+        String actionPerformed = "Update Branch";
+        if (selectedSite != null) {
             boolean okClicked = showBranchEditDialog(selectedSite);
             if (okClicked) {
                 showCompanyDetails(selectedSite);
                 companyService.updateCompanyInformation(selectedSite);
+                logIt(selectedSite, actionPerformed);
             }
 
         } else {
@@ -176,14 +184,16 @@ public class CompanyModuleController {
             alert.showAndWait();
         }
     }
-    
+
     @FXML
     private void handleDeleteSelectedBranch() {
-         int selectedIndex = warehouseTable.getSelectionModel().getSelectedIndex();
+        int selectedIndex = warehouseTable.getSelectionModel().getSelectedIndex();
         Site selectedSite = warehouseTable.getSelectionModel().getSelectedItem();
+        String actionPerformed = "Delete Branch";
         if (selectedIndex >= 0) {
             warehouseTable.getItems().remove(selectedIndex);
             companyService.delete(selectedSite.getPkSiteId());
+            logIt(selectedSite, actionPerformed);
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("No Selection");
@@ -193,6 +203,7 @@ public class CompanyModuleController {
             alert.showAndWait();
         }
     }
+
     @FXML
     private void handleCancel() {
 
@@ -229,7 +240,7 @@ public class CompanyModuleController {
     public boolean isOkClicked() {
         return okCliked;
     }
-    
+
     public boolean showBranchEditDialog(Site aSite) {
         try {
 
@@ -257,6 +268,20 @@ public class CompanyModuleController {
             e.printStackTrace();
             return false;
         }
+    }
+
+    private void logIt(Site tempSite, String activity) {
+        AuditLog log = new AuditLog("admin", "Site module", activity, getCompanyDetails(tempSite), new Date());
+
+        logService.save(log);
+    }
+
+    private String getCompanyDetails(Site aSite) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(" Site Id: ").append(aSite.getPkSiteId()).append(" Site name: ")
+                .append(aSite.getSiteName()).append(" City: ").append(aSite.getSiteCity());
+
+        return sb.toString();
     }
 
 }

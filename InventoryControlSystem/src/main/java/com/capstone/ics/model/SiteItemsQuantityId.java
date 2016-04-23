@@ -1,6 +1,7 @@
 package com.capstone.ics.model;
 // Generated Apr 14, 2016 11:58:11 AM by Hibernate Tools 4.3.1
 
+import javax.persistence.CascadeType;
 import javax.persistence.Embeddable;
 import javax.persistence.ManyToOne;
 

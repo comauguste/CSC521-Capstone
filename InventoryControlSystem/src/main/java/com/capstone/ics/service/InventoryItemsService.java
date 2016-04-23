@@ -7,10 +7,14 @@ package com.capstone.ics.service;
 
 import com.capstone.ics.DAO.InventoryItemsDAO;
 import com.capstone.ics.model.InventoryItems;
+import com.capstone.ics.model.SiteItemsQuantity;
 import com.capstone.ics.util.HibernateUtil;
+import java.util.ArrayList;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javax.transaction.Transactional;
+import org.hibernate.Query;
 
 /**
  *
@@ -39,16 +43,17 @@ public class InventoryItemsService {
     }
 
     public InventoryItems findById(Integer id) {
-        HibernateUtil.openCurrentSession();
+        //HibernateUtil.openCurrentSession();
         InventoryItems item = inventoryItemsDAO.findById(id);
-        HibernateUtil.closeCurrentSession();
+        //HibernateUtil.closeCurrentSession();
 
         return item;
     }
 
-    public void delete(InventoryItems newItem) {
+    public void delete(Integer userID) {
         HibernateUtil.openCurrentSessionWithTransaction();
-        inventoryItemsDAO.delete(newItem);
+        InventoryItems item = findById(userID);
+        inventoryItemsDAO.delete(item);
         HibernateUtil.closeCurrentSessionWithTransaction();
     }
 
@@ -64,11 +69,29 @@ public class InventoryItemsService {
         HibernateUtil.openCurrentSession();
         observableItemsList = inventoryItemsDAO.getItemsAsObservableList();
         HibernateUtil.closeCurrentSession();
-       
+
         return observableItemsList;
     }
 
-     public ObservableList<InventoryItems> getItemsData() {
+    public void updateItemQuantity(Integer itemId, Integer siteId, Integer qty) {
+      
+        
+    }
+
+    public ObservableList<SiteItemsQuantity> getItemLocationAndQuantityAsObservableList(Integer id) {
+        HibernateUtil.openCurrentSession();
+        InventoryItems item = findById(id);
+        List<SiteItemsQuantity> sites = new ArrayList<>();
+        sites.addAll(item.getSiteItemsQuantities());
+        ObservableList<SiteItemsQuantity> itemLocationAndQuantity = FXCollections.observableArrayList(sites);
+
+        HibernateUtil.openCurrentSession();
+
+        return itemLocationAndQuantity;
+
+    }
+
+    public ObservableList<InventoryItems> getItemsData() {
         return observableItemsList;
     }
 }

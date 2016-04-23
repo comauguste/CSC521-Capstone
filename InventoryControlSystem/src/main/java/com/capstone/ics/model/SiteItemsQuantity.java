@@ -2,6 +2,8 @@ package com.capstone.ics.model;
 // Generated Apr 14, 2016 11:58:11 AM by Hibernate Tools 4.3.1
 
 import java.util.Date;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javax.persistence.AssociationOverride;
 import javax.persistence.AssociationOverrides;
 import javax.persistence.Column;
@@ -18,18 +20,19 @@ import javax.persistence.Transient;
 @Entity
 @Table(name = "site_items_quantity")
 @AssociationOverrides({
-    @AssociationOverride(name = "id.item", joinColumns = @JoinColumn(name = "PK_ITEM_ID")),
-    @AssociationOverride(name = "id.site", joinColumns = @JoinColumn(name = "PK_SITE_ID"))})
+    @AssociationOverride(name = "id.item", joinColumns = @JoinColumn(name = "ITEM_ID")),
+    @AssociationOverride(name = "id.site", joinColumns = @JoinColumn(name = "SITE_ID"))})
 public class SiteItemsQuantity implements java.io.Serializable {
 
     private SiteItemsQuantityId id = new SiteItemsQuantityId();
     private InventoryItems inventoryItems;
     private Site site;
-    private Integer itemQuantity;
-    private Date createdDate;
-
+    private IntegerProperty  itemQuantity =  new SimpleIntegerProperty();
+ 
     public SiteItemsQuantity() {
     }
+    
+    
 
     public SiteItemsQuantity(SiteItemsQuantityId id, InventoryItems inventoryItems, Site site) {
         this.id = id;
@@ -41,8 +44,7 @@ public class SiteItemsQuantity implements java.io.Serializable {
         this.id = id;
         this.inventoryItems = inventoryItems;
         this.site = site;
-        this.itemQuantity = itemQuantity;
-        this.createdDate = createdDate;
+        setItemQuantity(itemQuantity);
     }
 
     @EmbeddedId
@@ -74,23 +76,19 @@ public class SiteItemsQuantity implements java.io.Serializable {
 
     @Column(name = "ITEM_QUANTITY")
     public Integer getItemQuantity() {
-        return this.itemQuantity;
+        return quantityIntegerProperty().get();
     }
 
     public void setItemQuantity(Integer itemQuantity) {
-        this.itemQuantity = itemQuantity;
+        this.itemQuantity.set(itemQuantity);
     }
 
-    @Temporal(javax.persistence.TemporalType.DATE)
-    @Column(name = "CREATED_DATE")
-    public Date getCreatedDate() {
-        return this.createdDate;
+    public IntegerProperty quantityIntegerProperty()
+    {
+        return this.itemQuantity;
     }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
-
+    
+   
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;

@@ -7,6 +7,7 @@ package com.capstone.ics.DAO;
 
 import com.capstone.ics.interfaces.SiteDaoInterface;
 import com.capstone.ics.model.Site;
+import com.capstone.ics.model.SiteItemsQuantity;
 import com.capstone.ics.util.HibernateUtil;
 import java.util.ArrayList;
 import java.util.List;
@@ -74,5 +75,6 @@ public class SiteDAO implements SiteDaoInterface<Site> {
     public void delete(Site aSite) {
         HibernateUtil.getCurrentSession().delete(aSite);
     }
+
 
 }

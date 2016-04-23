@@ -6,6 +6,7 @@
 package com.capstone.ics.interfaces;
 
 import com.capstone.ics.model.InventoryItems;
+import com.capstone.ics.model.SiteItemsQuantity;
 import java.util.List;
 import javafx.collections.ObservableList;
 
@@ -27,4 +28,5 @@ public interface InventoryItemsInterface<T> {
     public List<T> getAllItems();
 
     public ObservableList<InventoryItems> getItemsAsObservableList();
+    
 }

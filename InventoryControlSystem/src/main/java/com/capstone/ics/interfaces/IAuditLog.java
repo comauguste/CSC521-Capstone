@@ -12,18 +12,10 @@ import javafx.collections.ObservableList;
  *
  * @author Auguste C
  */
-public interface UsersDaoInterface<T> {
+public interface IAuditLog<T> {
+    
+    public void save(T entity);    
 
-    public void save(T entity);
-
-    public void update(T entity);
-
-    public T findById(Integer id);
-
-    public void delete(T entity);
-
-    public List<T> getAllUsers();
-
-    public ObservableList<T> getUsersAsObservableList();
-
+    public ObservableList<T> getLogsAsObservableList();
+    
 }

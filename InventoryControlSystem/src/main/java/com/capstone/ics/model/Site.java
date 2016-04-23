@@ -44,6 +44,7 @@ public class Site implements java.io.Serializable {
     private Date lastUpdatedDate;
     private String createdBy;
     private String createdDate;
+    private SiteItemsQuantity siteItems;
     private Set<SiteItemsQuantity> siteItemsQuantities = new HashSet<>(0);
 
     public Site() {
@@ -242,7 +243,7 @@ public class Site implements java.io.Serializable {
         return siteItemsQuantities;
     }
 
-    public void setSiteItemsQuantities(Set siteItemsQuantities) {
+    public void setSiteItemsQuantities(Set<SiteItemsQuantity>  siteItemsQuantities) {
         this.siteItemsQuantities = siteItemsQuantities;
     }
 
