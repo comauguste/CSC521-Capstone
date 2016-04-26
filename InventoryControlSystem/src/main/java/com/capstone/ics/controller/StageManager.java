@@ -21,7 +21,7 @@ import javafx.stage.Stage;
  */
 public class StageManager {
 
-    public void nextStageUsingAnActionEvent(ActionEvent event, String targetedStage) {
+    public void nextStageUsingAnActionEvent(ActionEvent event, String targetedStage, String title) {
 
         try {
             (((Node) event.getSource()).getScene()).getWindow().hide();
@@ -29,7 +29,7 @@ public class StageManager {
             Parent parent = FXMLLoader.load(getClass().getResource(targetedStage));
             Scene scene = new Scene(parent);
             Stage stage = new Stage();
-            stage.setTitle("Main");
+            stage.setTitle(title);
             stage.setScene(scene);
             stage.show();
 

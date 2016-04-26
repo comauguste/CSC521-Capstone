@@ -76,8 +76,8 @@
                         <ButtonBar prefHeight="27.0" prefWidth="579.0">
                           <buttons>
                               <Button fx:id="newBranch" mnemonicParsing="false" onAction="#handleNewBranch" prefHeight="25.0" prefWidth="160.0" text="Add New Warehouse" />
-                              <Button mnemonicParsing="false" onAction="#handleUpdateSelectedBranch" text="Update Selected Warehouse" />
-                              <Button layoutX="427.0" layoutY="11.0" mnemonicParsing="false" onAction="#handleDeleteSelectedBranch" text="Delete Selected Warehouse" />
+                              <Button fx:id="updateSelectedBranch" mnemonicParsing="false" onAction="#handleUpdateSelectedBranch" text="Update Selected Warehouse" />
+                              <Button fx:id="deleteSelectedBranch" layoutX="427.0" layoutY="11.0" mnemonicParsing="false" onAction="#handleDeleteSelectedBranch" text="Delete Selected Warehouse" />
                           </buttons>
                            <HBox.margin>
                               <Insets left="200.0" />

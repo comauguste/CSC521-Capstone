@@ -1,9 +1,7 @@
 package com.capstone.ics.model;
 // Generated Mar 22, 2016 9:24:22 PM by Hibernate Tools 4.3.1
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -16,7 +14,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 

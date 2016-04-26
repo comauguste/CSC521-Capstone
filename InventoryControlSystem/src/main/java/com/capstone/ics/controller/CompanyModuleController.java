@@ -6,6 +6,7 @@
 package com.capstone.ics.controller;
 
 import com.capstone.ics.model.AuditLog;
+import com.capstone.ics.model.Credentials;
 import com.capstone.ics.model.Site;
 import com.capstone.ics.service.CompanyService;
 import com.capstone.ics.service.LogService;
@@ -16,6 +17,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -28,8 +30,6 @@ import javafx.stage.Stage;
  *
  * @author Auguste C
  */
-
-
 public class CompanyModuleController {
 
     @FXML
@@ -39,35 +39,13 @@ public class CompanyModuleController {
     private TableColumn<Site, String> warehouseNameColumn, cityColumn, stateColumn, phoneNumberColumn;
 
     @FXML
-    private TextField companyNameField;
+    private TextField companyNameField, address1Field, address2Field, cityField, stateField, zipcodeField,
+            phoneField, faxField, emailField, websiteField;
 
     @FXML
-    private TextField address1Field;
+    private Button saveButton, cancelButton, newBranch, updateSelectedBranch, deleteSelectedBranch;
 
-    @FXML
-    private TextField address2Field;
-
-    @FXML
-    private TextField cityField;
-
-    @FXML
-    private TextField stateField;
-
-    @FXML
-    private TextField zipcodeField;
-
-    @FXML
-    private TextField phoneField;
-
-    @FXML
-    private TextField faxField;
-
-    @FXML
-    private TextField emailField;
-
-    @FXML
-    private TextField websiteField;
-
+    private Credentials loggedUser;
     private CompanyService companyService;
     private LogService logService;
     private Site company;
@@ -88,6 +66,32 @@ public class CompanyModuleController {
         cityColumn.setCellValueFactory(CellData -> CellData.getValue().siteCityProperty());
         stateColumn.setCellValueFactory(CellData -> CellData.getValue().siteStateProperty());
         phoneNumberColumn.setCellValueFactory(CellData -> CellData.getValue().siteOfficePhoneProperty());
+
+        //Disable all textfields if the logged user has regular access
+        LoginController user = new LoginController();
+        loggedUser = user.getLoggedUser();
+
+        if (loggedUser.isIsAdministrator() == false) {
+            disableAllTexfieldsAndButtons();
+        }
+    }
+
+    private void disableAllTexfieldsAndButtons() {
+        companyNameField.setEditable(false);
+        address1Field.setEditable(false);
+        address2Field.setEditable(false);
+        cityField.setEditable(false);
+        stateField.setEditable(false);
+        zipcodeField.setEditable(false);
+        phoneField.setEditable(false);
+        faxField.setEditable(false);
+        emailField.setEditable(false);
+        websiteField.setEditable(false);
+        saveButton.setVisible(false);
+        cancelButton.setVisible(false);
+        newBranch.setVisible(false);
+        updateSelectedBranch.setVisible(false);
+        deleteSelectedBranch.setVisible(false);
     }
 
     private void handleTreeTableView() {

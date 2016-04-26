@@ -72,12 +72,7 @@ public class InventoryItemsService {
 
         return observableItemsList;
     }
-
-    public void updateItemQuantity(Integer itemId, Integer siteId, Integer qty) {
-      
-        
-    }
-
+  
     public ObservableList<SiteItemsQuantity> getItemLocationAndQuantityAsObservableList(Integer id) {
         HibernateUtil.openCurrentSession();
         InventoryItems item = findById(id);
@@ -85,12 +80,20 @@ public class InventoryItemsService {
         sites.addAll(item.getSiteItemsQuantities());
         ObservableList<SiteItemsQuantity> itemLocationAndQuantity = FXCollections.observableArrayList(sites);
 
-        HibernateUtil.openCurrentSession();
+        HibernateUtil.closeCurrentSession();
 
         return itemLocationAndQuantity;
 
     }
 
+    public ObservableList<InventoryItems> getAllItemsBasedOnUser(Integer id)
+    {
+         HibernateUtil.openCurrentSession();
+         observableItemsList = inventoryItemsDAO.getAllItemsBasedOnUser(id);
+         HibernateUtil.closeCurrentSession();
+         return observableItemsList;
+    }
+    
     public ObservableList<InventoryItems> getItemsData() {
         return observableItemsList;
     }

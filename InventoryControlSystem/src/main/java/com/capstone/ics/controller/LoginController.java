@@ -59,7 +59,7 @@ public class LoginController implements Initializable {
             if (usernameField.getText().equals(aUser.getUsername()) && passwordField.getText().equals(aUser.getPassword())) {
                 
                 loggedUser = aUser;
-                newStage.nextStageUsingAnActionEvent(event, "/fxml/MainControlPanel.fxml");
+                newStage.nextStageUsingAnActionEvent(event, "/fxml/MainControlPanel.fxml", "Main Control Panel");
                 logIt(loggedUser, "Logged In");
 
             } else {

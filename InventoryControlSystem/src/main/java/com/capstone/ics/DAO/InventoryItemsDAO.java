@@ -7,7 +7,6 @@ package com.capstone.ics.DAO;
 
 import com.capstone.ics.interfaces.InventoryItemsInterface;
 import com.capstone.ics.model.InventoryItems;
-import com.capstone.ics.model.SiteItemsQuantity;
 import com.capstone.ics.util.HibernateUtil;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +53,16 @@ public class InventoryItemsDAO implements InventoryItemsInterface<InventoryItems
         items = query.list();
         return items;
     }
+    
+    public ObservableList<InventoryItems> getAllItemsBasedOnUser(Integer id) {
+        ObservableList<InventoryItems> observableItemsList;
+        Query query = HibernateUtil.getCurrentSession().createQuery("select i from InventoryItems i "
+                + "WHERE i.users.pkUserId = :id");
+        query.setParameter("id", id);
+        items = query.list();
+        observableItemsList = FXCollections.observableArrayList(items);
+        return observableItemsList;
+    }
 
     @Override
     public ObservableList<InventoryItems> getItemsAsObservableList() {
@@ -64,6 +73,16 @@ public class InventoryItemsDAO implements InventoryItemsInterface<InventoryItems
     }
 
     
-   
+    public static void main(String[] args) {
+        HibernateUtil.openCurrentSession();
+        InventoryItemsDAO test = new InventoryItemsDAO();
+        List<InventoryItems> lists = test.getAllItemsBasedOnUser(2);
+        
+        for(InventoryItems i : lists){
+            System.out.println(i.getItemName());
+        }
+        
+        HibernateUtil.closeCurrentSession();
+    }
 
 }

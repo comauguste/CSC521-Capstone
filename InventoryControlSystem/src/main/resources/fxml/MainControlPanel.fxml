@@ -57,7 +57,7 @@
                      </GridPane.margin>
                   </Label>
                   <Label fx:id="loggedUserFirstAndLastName" GridPane.columnIndex="1" />
-                  <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="141.0" text="Log Out" GridPane.columnIndex="4">
+                  <Button mnemonicParsing="false" onAction="#logoutAction" prefHeight="25.0" prefWidth="141.0" text="Log Out" GridPane.columnIndex="4">
                      <GridPane.margin>
                         <Insets />
                      </GridPane.margin>
