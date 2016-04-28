@@ -115,7 +115,7 @@ public class InventoryManagerController {
             itemsAsObservableList = itemsService.getItemsAsObservableList();
 
         } else {
-            
+
             itemsAsObservableList = itemsService.getAllItemsBasedOnUser(loggedUser.getUsers().getPkUserId());
         }
 
@@ -227,16 +227,12 @@ public class InventoryManagerController {
                 currentTotal = item.getQuantityInStock();
 
                 oldValue = (Integer) q.getOldValue().intValue();
-                System.out.println("Old value: " + oldValue);
 
                 updateItemQuantityInRelatedSite(q);
 
                 newValue = (Integer) q.getNewValue().intValue();
-                System.out.println("New value: " + newValue);
                 diff = newValue - oldValue;
-                System.out.println("Diff value: " + newValue);
                 currentTotal += diff;
-                System.out.println("Total value: " + currentTotal);
                 item.setQuantityInStock(currentTotal);
                 totalQuantityLabel.setText(item.getQuantityInStock().toString());
 

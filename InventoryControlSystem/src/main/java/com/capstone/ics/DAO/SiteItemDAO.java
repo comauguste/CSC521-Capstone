@@ -6,12 +6,10 @@
 package com.capstone.ics.DAO;
 
 import com.capstone.ics.model.SiteItemsQuantity;
-import com.capstone.ics.model.Users;
 import com.capstone.ics.util.HibernateUtil;
 import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Query;
-import org.hibernate.Session;
 
 /**
  *
@@ -36,16 +34,4 @@ public class SiteItemDAO {
     }
     
     
-    public static void main(String[] args)
-    {
-         Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        
-        SiteItemDAO test = new SiteItemDAO();
-        test.getAllUsers();
-        
-        session.getTransaction().commit();
-        session.close();
-    }
-     
 }

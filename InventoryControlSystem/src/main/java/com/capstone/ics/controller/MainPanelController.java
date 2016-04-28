@@ -25,6 +25,7 @@ public class MainPanelController {
     private final String inventoryModuleStage = "/fxml/InventoryManager.fxml";
     private final String logModuleStage = "/fxml/AuditLog.fxml";
     private final String loginPage = "/fxml/Login.fxml";
+    private final String reportPage = "/fxml/ReportModule.fxml";
 
     @FXML
     private Label loggedUserFirstAndLastName, accessLevel;
@@ -98,6 +99,12 @@ public class MainPanelController {
     @FXML
     private void goToLogManagerWindow(Event onMouseClicked) {
         newStage.nextStage(logModuleStage, "Log Module Manager");
+        onMouseClicked.consume();
+    }
+    
+    @FXML
+    private void goToReportWindow(Event onMouseClicked) {
+        newStage.nextStage(reportPage, "Report Module Manager");
         onMouseClicked.consume();
     }
 

@@ -73,16 +73,16 @@ public class InventoryItemsDAO implements InventoryItemsInterface<InventoryItems
     }
 
     
-    public static void main(String[] args) {
-        HibernateUtil.openCurrentSession();
-        InventoryItemsDAO test = new InventoryItemsDAO();
-        List<InventoryItems> lists = test.getAllItemsBasedOnUser(2);
-        
-        for(InventoryItems i : lists){
-            System.out.println(i.getItemName());
-        }
-        
-        HibernateUtil.closeCurrentSession();
-    }
+//    public static void main(String[] args) {
+//        HibernateUtil.openCurrentSession();
+//        InventoryItemsDAO test = new InventoryItemsDAO();
+//        List<InventoryItems> lists = test.getAllItemsBasedOnUser(2);
+//        
+//        for(InventoryItems i : lists){
+//            System.out.println(i.getItemName());
+//        }
+//        
+//        HibernateUtil.closeCurrentSession();
+//    }
 
 }
