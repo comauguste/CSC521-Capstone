@@ -36,6 +36,9 @@ public class RegularUserProfileController {
     private PasswordField passwordTextField;
 
     @FXML
+    private ChoiceBox notificationChocieBox;
+
+    @FXML
     private DatePicker birthdayDatePicker;
 
     private Stage mDialogStage;
@@ -50,6 +53,7 @@ public class RegularUserProfileController {
         LoginController user = new LoginController();
         loggedUser = user.getLoggedUser();
         userService = new UserService();
+        notificationChocieBox.setItems(yesOrNo);
         mUsers = userService.findById(loggedUser.getUsers().getPkUserId());
         setUser();
     }
@@ -70,6 +74,7 @@ public class RegularUserProfileController {
         countryTextField.setText(mUsers.getAddress().getCountry());
         usernameTextField.setText(mUsers.getUserCredentials().getUsername());
         passwordTextField.setText(mUsers.getUserCredentials().getPassword());
+        notificationChocieBox.setValue(mUsers.getUserCredentials().convertReceiveNotificationToString());
 
     }
 
@@ -90,6 +95,7 @@ public class RegularUserProfileController {
             mUsers.getAddress().setCountry(countryTextField.getText());
             mUsers.getUserCredentials().setUsername(usernameTextField.getText());
             mUsers.getUserCredentials().setPassword(passwordTextField.getText());
+            mUsers.getUserCredentials().returnReceiveNotificationAsBoolean(getChoice(notificationChocieBox));
 
             userService.update(mUsers);
 

@@ -7,7 +7,6 @@ package com.capstone.ics.controller;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,7 +19,6 @@ import javafx.scene.control.TreeView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 
@@ -56,6 +54,7 @@ public class ReportModuleController {
         TreeItem<String> type2 = new TreeItem<>("Product Price List");
         TreeItem<String> type3 = new TreeItem<>("Total Quantity, Price and Cost");
         rootItem.getChildren().addAll(type1, type2, type3);
+        //rootItem.getChildren().addAll(type1);
         rootItem.setExpanded(true);
 
         reportTreeView.setRoot(rootItem);
@@ -97,6 +96,8 @@ public class ReportModuleController {
             Class.forName("com.mysql.jdbc.Driver");
             try {
                 Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/inventory_system", "comauguste", "Journey1");
+                //Connection con = DriverManager.getConnection("jdbc:mysql://173.244.1.35:3306/S0269025", "S0269025", "New2016");
+
                 jasperPrint = JasperFillManager.fillReport(reportClassPath, new HashMap(), con);
                 JRViewerFx viewer = new JRViewerFx(jasperPrint, JRViewerFxMode.REPORT_PRINT, primaryStage);
                 viewer.start(primaryStage);

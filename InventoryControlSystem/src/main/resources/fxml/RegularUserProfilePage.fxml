@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
@@ -18,8 +19,8 @@
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="224.0" minWidth="10.0" prefWidth="76.33332824707031" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="333.33331298828125" minWidth="10.0" prefWidth="190.33334350585938" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="282.6666564941406" minWidth="10.0" prefWidth="149.33331298828125" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="178.66668701171875" minWidth="10.0" prefWidth="178.66668701171875" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="282.6666564941406" minWidth="10.0" prefWidth="174.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="178.66668701171875" minWidth="10.0" prefWidth="171.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -66,6 +67,8 @@
             <DatePicker fx:id="birthdayDatePicker" GridPane.columnIndex="3" GridPane.rowIndex="2" />
             <Label text="City" GridPane.rowIndex="7" />
             <TextField fx:id="cityTextField" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+            <Label text="Be notifiied when stocks are low" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+            <ChoiceBox fx:id="notificationChocieBox" prefHeight="25.0" prefWidth="191.0" GridPane.columnIndex="3" GridPane.rowIndex="6" />
          </children>
       </GridPane>
       <ButtonBar layoutX="547.0" layoutY="525.0" prefHeight="40.0" prefWidth="200.0">

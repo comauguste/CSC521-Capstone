@@ -70,6 +70,9 @@ public class EditUserDetailsDialogController {
 
     @FXML
     private ChoiceBox reportChoiceBox;
+            
+    @FXML
+    private ChoiceBox notificationChoiceBox;
 
     @FXML
     private ChoiceBox logChoiceBox;
@@ -90,6 +93,7 @@ public class EditUserDetailsDialogController {
         accessLevelChoiceBox.setItems(userCredential);
         reportChoiceBox.setItems(yesOrNo);
         logChoiceBox.setItems(yesOrNo);
+        notificationChoiceBox.setItems(yesOrNo);
     }
 
     public void setDialogStage(Stage newDialogStage) {
@@ -118,6 +122,7 @@ public class EditUserDetailsDialogController {
         accessLevelChoiceBox.setValue(mCredentials.convertAccessLevelToString());
         reportChoiceBox.setValue(mCredentials.convertReportAccessLevelToString());
         logChoiceBox.setValue(mCredentials.convertLogAccessLevelToString());
+        notificationChoiceBox.setValue(mCredentials.convertReceiveNotificationToString());
 
     }
 
@@ -145,6 +150,7 @@ public class EditUserDetailsDialogController {
             mCredentials.returnAccessLevelAsBoolean(getChoice(accessLevelChoiceBox));
             mCredentials.returnReportAccessLevelAsBoolean(getChoice(reportChoiceBox));
             mCredentials.returnLogAccessLevelAsBoolean(getChoice(logChoiceBox));
+            mCredentials.returnReceiveNotificationAsBoolean(getChoice(notificationChoiceBox));
 
             okCliked = true;
             mDialogStage.close();

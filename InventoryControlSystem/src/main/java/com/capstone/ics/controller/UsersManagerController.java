@@ -40,36 +40,9 @@ public class UsersManagerController {
     @FXML
     private TableColumn<Users, String> lastNameColumn;
     @FXML
-    private Label firstNameLabel;
-    @FXML
-    private Label lastNameLabel;
-    @FXML
-    private Label emailAddressLabel;
-    @FXML
-    private Label phoneNumberLabel;
-    @FXML
-    private Label genderLabel;
-    @FXML
-    private Label address1Label;
-    @FXML
-    private Label address2Label;
-    @FXML
-    private Label cityLabel;
-    @FXML
-    private Label postalCodeLabel;
-    @FXML
-    private Label stateLabel;
-    @FXML
-    private Label birthdayLabel;
-    @FXML
-    private Label countryLabel;
-    @FXML
-    private Label accessLevelLabel;
-    @FXML
-    private Label reportLabel;
-    @FXML
-    private Label logLabel;
-
+    private Label firstNameLabel,lastNameLabel,emailAddressLabel,phoneNumberLabel,genderLabel,address1Label,
+            address2Label,cityLabel,postalCodeLabel,stateLabel,birthdayLabel,countryLabel,accessLevelLabel,reportLabel,logLabel,notificationLabel;
+   
     private final StageManager aStage = new StageManager();
 
     private UserService userService;
@@ -111,6 +84,7 @@ public class UsersManagerController {
             accessLevelLabel.setText(aUser.getUserCredentials().convertAccessLevelToString());
             reportLabel.setText(aUser.getUserCredentials().convertReportAccessLevelToString());
             logLabel.setText(aUser.getUserCredentials().convertLogAccessLevelToString());
+            notificationLabel.setText(aUser.getUserCredentials().convertReceiveNotificationToString());
         } else {
 
             firstNameLabel.setText("");
@@ -128,6 +102,7 @@ public class UsersManagerController {
             accessLevelLabel.setText("");
             reportLabel.setText("");
             logLabel.setText("");
+            notificationLabel.setText("");
 
         }
     }

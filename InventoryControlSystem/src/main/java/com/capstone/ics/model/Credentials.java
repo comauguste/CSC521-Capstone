@@ -28,6 +28,7 @@ public class Credentials implements java.io.Serializable {
     private boolean isAdministrator;
     private boolean accessReportModule;
     private boolean accessLogModule;
+    private boolean receiveNotification;
 
     public Credentials() {
     }
@@ -105,6 +106,17 @@ public class Credentials implements java.io.Serializable {
         this.accessLogModule = accessLogModule;
     }    
 
+    @Column(name = "RECEIVE_NOTIFICATION")
+    public boolean isReceiveNotification() {
+        return receiveNotification;
+    }
+
+    public void setReceiveNotification(boolean receiveNotification) {
+        this.receiveNotification = receiveNotification;
+    }
+    
+    
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "FK_CR_USER_ID", referencedColumnName = "PK_USER_ID")
     public Users getUsers() {
@@ -152,6 +164,18 @@ public class Credentials implements java.io.Serializable {
         }
     }
     
+     public String convertReceiveNotificationToString()
+    {
+        if(isReceiveNotification()== false)
+        {
+            return "No";
+        }
+        else
+        {
+            return "Yes";
+        }
+    }
+    
     public void returnAccessLevelAsBoolean(String acl)
     {
         if(acl.equals("Administrator"))
@@ -185,6 +209,18 @@ public class Credentials implements java.io.Serializable {
         else
         {
             setAccessLogModule(false);
+        }
+    }
+    
+    public void returnReceiveNotificationAsBoolean(String acl)
+    {
+        if(acl.equals("Yes"))
+        {
+            setReceiveNotification(true);
+        }
+        else
+        {
+            setReceiveNotification(false);
         }
     }
     
