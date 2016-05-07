@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.2.1.final using JasperReports Library version 6.2.1  -->
-<!-- 2016-04-26T20:17:42 -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Cherry_Landscape" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7a5c9b49-9dc5-422a-ac69-e92cf61ef530">
+<!-- 2016-05-04T03:11:43 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="TotalQuantityAndPrice" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7a5c9b49-9dc5-422a-ac69-e92cf61ef530">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="ICS"/>
 	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false"/>
@@ -15,15 +15,29 @@
 		</conditionalStyle>
 	</style>
 	<queryString>
-		<![CDATA[SELECT * FROM inventory_items INNER JOIN users on users.PK_USER_ID = inventory_items.FK_USER_ID;]]>
+		<![CDATA[SELECT * FROM `inventory_items`;]]>
 	</queryString>
 	<field name="PK_ITEM_ID" class="java.lang.Integer"/>
+	<field name="FK_USER_ID" class="java.lang.Integer"/>
+	<field name="ITEM_CATEGORY" class="java.lang.String"/>
 	<field name="ITEM_NAME" class="java.lang.String"/>
 	<field name="ITEM_TYPE" class="java.lang.String"/>
-	<field name="ITEM_CATEGORY" class="java.lang.String"/>
+	<field name="ITEM_DESCRIPTION" class="java.lang.String"/>
+	<field name="ITEM_PRICE" class="java.math.BigDecimal"/>
+	<field name="ITEM_COST" class="java.math.BigDecimal"/>
+	<field name="REORDER_LEVEL" class="java.lang.Integer"/>
+	<field name="OTHER_ITEM_DETAILS" class="java.lang.String"/>
 	<field name="QUANTITY_IN_STOCK" class="java.lang.Integer"/>
+	<field name="IS_ACTIVE" class="java.lang.Integer"/>
 	<field name="CREATED_BY" class="java.lang.String"/>
 	<field name="CREATED_DATE" class="java.sql.Timestamp"/>
+	<field name="ITEM_IMAGE" class="java.lang.Object"/>
+	<group name="Group1">
+		<groupExpression><![CDATA[$F{PK_ITEM_ID}]]></groupExpression>
+		<groupFooter>
+			<band height="6"/>
+		</groupFooter>
+	</group>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -36,7 +50,7 @@
 			<frame>
 				<reportElement mode="Opaque" x="0" y="0" width="721" height="66" backcolor="#000000" uuid="d8d9e644-3a32-491d-97cb-a277aff17133"/>
 				<staticText>
-					<reportElement style="Title" x="0" y="0" width="510" height="66" uuid="27d8f6ee-f0a9-44f6-a160-1763c3b00f30"/>
+					<reportElement style="Title" x="0" y="0" width="370" height="66" uuid="27d8f6ee-f0a9-44f6-a160-1763c3b00f30"/>
 					<box topPadding="4" leftPadding="4" bottomPadding="4" rightPadding="4"/>
 					<textElement verticalAlignment="Bottom">
 						<font isBold="false"/>
@@ -44,11 +58,11 @@
 					<text><![CDATA[INVENTORY]]></text>
 				</staticText>
 				<staticText>
-					<reportElement style="SubTitle" x="370" y="37" width="316" height="29" uuid="cfa21334-0634-4605-9ea7-aca4981f67e4"/>
+					<reportElement style="SubTitle" x="321" y="37" width="376" height="29" uuid="cfa21334-0634-4605-9ea7-aca4981f67e4"/>
 					<textElement textAlignment="Right">
 						<font size="22" isBold="false"/>
 					</textElement>
-					<text><![CDATA[SUMMARY]]></text>
+					<text><![CDATA[PRODUCT TOTAL VALUE AND COST]]></text>
 				</staticText>
 			</frame>
 			<frame>
@@ -67,55 +81,60 @@
 		<band splitType="Stretch"/>
 	</pageHeader>
 	<columnHeader>
-		<band height="18" splitType="Stretch">
+		<band height="20" splitType="Stretch">
 			<staticText>
-				<reportElement style="Column header" x="0" y="0" width="80" height="18" forecolor="#000000" uuid="59c00543-dacd-4b7e-b3d3-619adb2d25bc"/>
+				<reportElement style="Column header" x="0" y="0" width="130" height="18" forecolor="#000000" uuid="03bdf3b5-0c97-4de8-8ca6-ef3ac2d99deb"/>
 				<textElement>
-					<font isBold="false"/>
-				</textElement>
-				<text><![CDATA[NO]]></text>
-			</staticText>
-			<staticText>
-				<reportElement style="Column header" x="80" y="0" width="145" height="18" forecolor="#000000" uuid="96c8fabf-b3d7-453c-a211-6430dfd68c12"/>
-				<textElement>
-					<font isBold="false"/>
+					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[ITEM]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Column header" x="226" y="0" width="113" height="18" forecolor="#000000" uuid="3f3fff73-d016-4187-aedf-bcb34dcb6cf3"/>
-				<textElement>
-					<font isBold="false"/>
+				<reportElement style="Column header" x="516" y="0" width="120" height="18" forecolor="#000000" uuid="11d92baa-147f-4901-872e-f74f30d411ce">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[TYPE]]></text>
+				<text><![CDATA[PRICE PER ITEM]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Column header" x="339" y="0" width="113" height="18" forecolor="#000000" uuid="7dc1be37-749d-48f7-b147-48f7de03fb06"/>
-				<textElement>
-					<font isBold="false"/>
+				<reportElement style="Column header" x="263" y="0" width="120" height="18" forecolor="#000000" uuid="6ef25a45-15bd-4e0d-9449-bfd4fbe98440">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[CATEGORY]]></text>
+				<text><![CDATA[COST PER ITEM]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Column header" x="452" y="0" width="58" height="18" forecolor="#000000" uuid="8ff61e4d-1c6c-4582-8e1c-2791fc717713"/>
-				<textElement>
-					<font isBold="false"/>
+				<reportElement style="Column header" x="389" y="0" width="120" height="18" forecolor="#000000" uuid="dbb8b0f9-bd26-449c-bfff-e52e83434153">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[TOTAL QUANTITY]]></text>
+				<text><![CDATA[TOTAL COST]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Column header" x="530" y="0" width="148" height="18" forecolor="#000000" uuid="6c450e81-3371-44bf-9d15-afc94c64aabb"/>
-				<textElement>
-					<font isBold="false"/>
+				<reportElement style="Column header" x="130" y="0" width="130" height="18" forecolor="#000000" uuid="94c225f2-41b4-4def-b650-60bacda53bbe">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[ADDED BY]]></text>
+				<text><![CDATA[QUANTITY]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Column header" x="678" y="0" width="113" height="18" forecolor="#000000" uuid="c733df9b-9208-43e1-b8db-a468cbde7365"/>
-				<textElement>
-					<font isBold="false"/>
+				<reportElement style="Column header" x="649" y="0" width="120" height="18" forecolor="#000000" uuid="8747f7d1-eb5f-4d39-9473-7ca8fcd534d6">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[CREATED ON]]></text>
+				<text><![CDATA[TOTAL VALUE]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
@@ -124,53 +143,60 @@
 			<frame>
 				<reportElement style="Row" mode="Opaque" x="0" y="0" width="797" height="18" uuid="34a2ae4b-4055-476b-8676-d499f6af510b"/>
 				<textField isStretchWithOverflow="true">
-					<reportElement style="Detail" positionType="Float" x="0" y="0" width="80" height="18" uuid="6bab4154-ef8a-4731-82c6-d363dc2f3cd9"/>
-					<textElement>
-						<font size="14"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$F{PK_ITEM_ID}]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="true">
-					<reportElement style="Detail" positionType="Float" x="80" y="0" width="145" height="18" uuid="b2ddc710-7b38-4bee-b69f-f37786fb7478"/>
+					<reportElement style="Detail" positionType="Float" x="0" y="0" width="130" height="18" uuid="b24381f9-02de-46c5-88e1-1a5cb5710ab2"/>
 					<textElement>
 						<font size="14"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{ITEM_NAME}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true">
-					<reportElement style="Detail" positionType="Float" x="226" y="0" width="113" height="18" uuid="532ff771-b50f-447f-8c8b-9b88ca9518b8"/>
-					<textElement>
+					<reportElement style="Detail" positionType="Float" x="495" y="0" width="120" height="18" uuid="35abec5c-40bb-42cb-8641-8ea825e8226e">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					</reportElement>
+					<textElement textAlignment="Right">
 						<font size="14"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{ITEM_TYPE}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{ITEM_PRICE}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true">
-					<reportElement style="Detail" positionType="Float" x="339" y="0" width="113" height="18" uuid="d5ba6346-7b62-4d10-8119-82eae4b7c0ab"/>
-					<textElement>
+					<reportElement key="" style="Detail" positionType="Float" x="255" y="0" width="120" height="18" uuid="ae3fb303-b29e-48c0-83b2-73f7d0d625b5"/>
+					<textElement textAlignment="Right">
 						<font size="14"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{ITEM_CATEGORY}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{ITEM_COST}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true">
-					<reportElement style="Detail" positionType="Float" x="452" y="0" width="58" height="18" uuid="e59567a4-6bba-4775-9e89-8631dd1241ad"/>
-					<textElement>
+				<textField>
+					<reportElement x="118" y="0" width="120" height="18" uuid="a19618b4-6af0-448e-ab36-a2ac1db32adb">
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<textElement textAlignment="Right">
 						<font size="14"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{QUANTITY_IN_STOCK}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true">
-					<reportElement style="Detail" positionType="Float" x="530" y="0" width="148" height="18" uuid="03141bc1-c4b5-44e0-8417-1f851f94c53e"/>
-					<textElement>
+				<textField>
+					<reportElement positionType="Float" x="375" y="0" width="120" height="18" uuid="dc518ff0-b4bc-4da4-9845-c9a3bdb03f1a">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					</reportElement>
+					<textElement textAlignment="Right">
 						<font size="14"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{CREATED_BY}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[new Double($F{QUANTITY_IN_STOCK}.intValue()*$F{ITEM_COST}.doubleValue())]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true">
-					<reportElement style="Detail" positionType="Float" x="678" y="0" width="113" height="18" uuid="dce3c27f-a5ed-47ac-be27-458b6797a31a"/>
-					<textElement>
+				<textField>
+					<reportElement x="619" y="0" width="120" height="18" uuid="0c3d743c-4419-4302-adba-bc919b4e9d26">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<textElement textAlignment="Right">
 						<font size="14"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{CREATED_DATE}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[new Double($F{QUANTITY_IN_STOCK}.intValue()*$F{ITEM_PRICE}.doubleValue())]]></textFieldExpression>
 				</textField>
 			</frame>
 		</band>

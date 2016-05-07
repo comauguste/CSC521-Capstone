@@ -9,6 +9,9 @@ import com.capstone.ics.model.Credentials;
 import com.capstone.ics.model.Users;
 import com.capstone.ics.service.UserService;
 import com.capstone.ics.util.DateUtil;
+import com.capstone.ics.util.Encryption;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
@@ -73,7 +76,16 @@ public class RegularUserProfileController {
         postalCodeTextField.setText(mUsers.getAddress().getZipCode());
         countryTextField.setText(mUsers.getAddress().getCountry());
         usernameTextField.setText(mUsers.getUserCredentials().getUsername());
-        passwordTextField.setText(mUsers.getUserCredentials().getPassword());
+        if (mUsers.getUserCredentials().getPassword() == null) {
+            passwordTextField.setText(mUsers.getUserCredentials().getPassword());
+        } else {
+
+            try {
+                passwordTextField.setText(Encryption.decrypt(mUsers.getUserCredentials().getPassword()));
+            } catch (Exception ex) {
+                Logger.getLogger(EditUserDetailsDialogController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         notificationChocieBox.setValue(mUsers.getUserCredentials().convertReceiveNotificationToString());
 
     }
@@ -94,7 +106,11 @@ public class RegularUserProfileController {
             mUsers.getAddress().setCity(cityTextField.getText());
             mUsers.getAddress().setCountry(countryTextField.getText());
             mUsers.getUserCredentials().setUsername(usernameTextField.getText());
-            mUsers.getUserCredentials().setPassword(passwordTextField.getText());
+            try {
+                 mUsers.getUserCredentials().setPassword(Encryption.encrypt(passwordTextField.getText()));
+            } catch (Exception ex) {
+                Logger.getLogger(EditUserDetailsDialogController.class.getName()).log(Level.SEVERE, null, ex);
+            }
             mUsers.getUserCredentials().returnReceiveNotificationAsBoolean(getChoice(notificationChocieBox));
 
             userService.update(mUsers);

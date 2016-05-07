@@ -9,11 +9,14 @@ import com.capstone.ics.model.AuditLog;
 import com.capstone.ics.model.Credentials;
 import com.capstone.ics.service.CredentialsService;
 import com.capstone.ics.service.LogService;
+import com.capstone.ics.util.Encryption;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -56,7 +59,8 @@ public class LoginController implements Initializable {
         
         
         for (Credentials aUser : users) {
-            if (usernameField.getText().equals(aUser.getUsername()) && passwordField.getText().equals(aUser.getPassword())) {
+            String password = getDecryptedPassword(aUser.getPassword());
+            if (usernameField.getText().equals(aUser.getUsername()) && passwordField.getText().equals(password)) {
                 
                 loggedUser = aUser;
                 newStage.nextStageUsingAnActionEvent(event, "/fxml/MainControlPanel.fxml", "Main Control Panel");
@@ -66,6 +70,18 @@ public class LoginController implements Initializable {
                 errorLabel.setText(" Username or Password is invalid");
             }
         }
+    }
+    
+    private String getDecryptedPassword(String encryptedPassword)
+    {
+        
+        try {
+            encryptedPassword = Encryption.decrypt(encryptedPassword);
+        } catch (Exception ex) {
+            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return encryptedPassword;
     }
     
     private String getUserDetails(Credentials aUser)

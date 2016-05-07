@@ -9,6 +9,10 @@ import com.capstone.ics.model.Credentials;
 import com.capstone.ics.model.UserAddresses;
 import com.capstone.ics.model.Users;
 import com.capstone.ics.util.DateUtil;
+import com.capstone.ics.util.Validator;
+import com.capstone.ics.util.Encryption;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -70,7 +74,7 @@ public class EditUserDetailsDialogController {
 
     @FXML
     private ChoiceBox reportChoiceBox;
-            
+
     @FXML
     private ChoiceBox notificationChoiceBox;
 
@@ -118,7 +122,17 @@ public class EditUserDetailsDialogController {
         postalCodeTextField.setText(mAddresses.getZipCode());
         countryTextField.setText(mAddresses.getCountry());
         usernameTextField.setText(mCredentials.getUsername());
-        passwordTextField.setText(mCredentials.getPassword());
+
+        if (mCredentials.getPassword() == null) {
+            passwordTextField.setText(mCredentials.getPassword());
+        } else {
+
+            try {
+                passwordTextField.setText(Encryption.decrypt(mCredentials.getPassword()));
+            } catch (Exception ex) {
+                Logger.getLogger(EditUserDetailsDialogController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         accessLevelChoiceBox.setValue(mCredentials.convertAccessLevelToString());
         reportChoiceBox.setValue(mCredentials.convertReportAccessLevelToString());
         logChoiceBox.setValue(mCredentials.convertLogAccessLevelToString());
@@ -146,7 +160,11 @@ public class EditUserDetailsDialogController {
             mAddresses.setCity(cityTextField.getText());
             mAddresses.setCountry(countryTextField.getText());
             mCredentials.setUsername(usernameTextField.getText());
-            mCredentials.setPassword(passwordTextField.getText());
+            try {
+                mCredentials.setPassword(Encryption.encrypt(passwordTextField.getText()));
+            } catch (Exception ex) {
+                Logger.getLogger(EditUserDetailsDialogController.class.getName()).log(Level.SEVERE, null, ex);
+            }
             mCredentials.returnAccessLevelAsBoolean(getChoice(accessLevelChoiceBox));
             mCredentials.returnReportAccessLevelAsBoolean(getChoice(reportChoiceBox));
             mCredentials.returnLogAccessLevelAsBoolean(getChoice(logChoiceBox));
@@ -164,6 +182,7 @@ public class EditUserDetailsDialogController {
 
     private boolean isInputValid() {
         String errorMessage = "";
+        Validator check = new Validator();
 
         if (firstNameTextField.getText() == null || firstNameTextField.getText().length() == 0) {
             errorMessage += "No valid first name!\n";
@@ -171,12 +190,25 @@ public class EditUserDetailsDialogController {
         if (lastNameTextField.getText() == null || lastNameTextField.getText().length() == 0) {
             errorMessage += "No valid last name!\n";
         }
-//        if (birthdayTextField.getText() == null || birthdayTextField.getText().length() == 0) {
-//            errorMessage += "No valid birthday!\n";
-//        } else if (!DateUtil.validDate(birthdayTextField.getText())) {
-//            errorMessage += "No valid birthday. User the format dd.mm.yyyy\n";
-//        }
-
+        if (check.validateEmail(emailTextField.getText()) == false) {
+            errorMessage += "No valid email!\n";
+        }
+        if (check.isPhoneNumberCorrect(phoneTextField.getText()) == false) {
+            errorMessage += "No valid phone number!\n";
+        }
+        if (stateTextField.getText() == null || stateTextField.getText().length() == 0) {
+            errorMessage += "No valid state name !\n";
+        }
+        if (postalCodeTextField.getText() == null || postalCodeTextField.getText().length() == 0) {
+            errorMessage += "No postal code!\n";
+        }
+        if (cityTextField.getText() == null || cityTextField.getText().length() == 0) {
+            errorMessage += "No valid city!\n";
+        }
+        if (countryTextField.getText() == null || countryTextField.getText().length() == 0) {
+            errorMessage += "No valid country!\n";
+        }
+        
         if (errorMessage.length() == 0) {
             return true;
         } else {

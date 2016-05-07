@@ -95,8 +95,8 @@ public class ReportModuleController {
             //Need to change the following code below
             Class.forName("com.mysql.jdbc.Driver");
             try {
-                Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/inventory_system", "comauguste", "Journey1");
-                //Connection con = DriverManager.getConnection("jdbc:mysql://173.244.1.35:3306/S0269025", "S0269025", "New2016");
+                //Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/inventory_system", "comauguste", "Journey1");
+                Connection con = DriverManager.getConnection("jdbc:mysql://173.244.1.35:3306/S9269025", "S9269025", "New2016");
 
                 jasperPrint = JasperFillManager.fillReport(reportClassPath, new HashMap(), con);
                 JRViewerFx viewer = new JRViewerFx(jasperPrint, JRViewerFxMode.REPORT_PRINT, primaryStage);

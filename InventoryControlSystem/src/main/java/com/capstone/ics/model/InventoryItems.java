@@ -38,8 +38,6 @@ public class InventoryItems implements java.io.Serializable {
     private String otherItemDetails;
     private Integer quantityInStock;
     private Integer isActive;
-    private String lastUpdatedBy;
-    private Date lastUpdatedDate;
     private String createdBy;
     private Date createdDate;
     private Set<SiteItemsQuantity> siteItemsQuantities = new HashSet<SiteItemsQuantity>(0);
@@ -52,7 +50,7 @@ public class InventoryItems implements java.io.Serializable {
         this.users = users;
     }
 
-    public InventoryItems(Users users, String itemCategory, String itemName, String itemType, String itemDescription, BigDecimal itemPrice, BigDecimal itemCost, Integer reorderLevel, String otherItemDetails, Integer quantityInStock, Integer isActive, String lastUpdatedBy, Date lastUpdatedDate, String createdBy, Date createdDate, Set siteItemsQuantities) {
+    public InventoryItems(Users users, String itemCategory, String itemName, String itemType, String itemDescription, BigDecimal itemPrice, BigDecimal itemCost, Integer reorderLevel, String otherItemDetails, Integer quantityInStock, Integer isActive, String createdBy, Date createdDate, Set siteItemsQuantities) {
         this.users = users;
         setItemCategory(itemCategory);
         setItemName(itemName);
@@ -64,8 +62,6 @@ public class InventoryItems implements java.io.Serializable {
         this.otherItemDetails = otherItemDetails;
         this.quantityInStock = quantityInStock;
         this.isActive = isActive;
-        this.lastUpdatedBy = lastUpdatedBy;
-        this.lastUpdatedDate = lastUpdatedDate;
         this.createdBy = createdBy;
         this.createdDate = createdDate;
         this.siteItemsQuantities = siteItemsQuantities;
@@ -189,26 +185,7 @@ public class InventoryItems implements java.io.Serializable {
     public void setIsActive(Integer isActive) {
         this.isActive = isActive;
     }
-
-    @Column(name = "LAST_UPDATED_BY")
-    public String getLastUpdatedBy() {
-        return this.lastUpdatedBy;
-    }
-
-    public void setLastUpdatedBy(String lastUpdatedBy) {
-        this.lastUpdatedBy = lastUpdatedBy;
-    }
-
-    @Column(name = "LAST_UPDATED_DATE")
-    @Temporal(javax.persistence.TemporalType.DATE)
-    public Date getLastUpdatedDate() {
-        return this.lastUpdatedDate;
-    }
-
-    public void setLastUpdatedDate(Date lastUpdatedDate) {
-        this.lastUpdatedDate = lastUpdatedDate;
-    }
-
+   
     @Column(name = "CREATED_BY")
     public String getCreatedBy() {
         return this.createdBy;

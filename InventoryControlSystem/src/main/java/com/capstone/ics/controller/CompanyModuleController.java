@@ -10,6 +10,7 @@ import com.capstone.ics.model.Credentials;
 import com.capstone.ics.model.Site;
 import com.capstone.ics.service.CompanyService;
 import com.capstone.ics.service.LogService;
+import com.capstone.ics.util.Validator;
 import java.io.IOException;
 import java.util.Date;
 import javafx.fxml.FXML;
@@ -215,18 +216,30 @@ public class CompanyModuleController {
 
     private boolean isInputValid() {
         String errorMessage = "";
+        Validator check = new Validator();
 
-//        if (firstNameTextField.getText() == null || firstNameTextField.getText().length() == 0) {
-//            errorMessage += "No valid first name!\n";
-//        }
-//        if (lastNameTextField.getText() == null || lastNameTextField.getText().length() == 0) {
-//            errorMessage += "No valid last name!\n";
-//        }
-//        if (birthdayTextField.getText() == null || birthdayTextField.getText().length() == 0) {
-//            errorMessage += "No valid birthday!\n";
-//        } else if (!DateUtil.validDate(birthdayTextField.getText())) {
-//            errorMessage += "No valid birthday. User the format dd.mm.yyyy\n";
-//        }
+if (companyNameField.getText() == null || companyNameField.getText().length() == 0) {
+            errorMessage += "No valid company name!\n";
+        }
+        if (address1Field.getText() == null || address1Field.getText().length() == 0) {
+            errorMessage += "No valid address!\n";
+        }
+        if (check.validateEmail(emailField.getText()) == false) {
+            errorMessage += "No valid email!\n";
+        }
+        if (check.isPhoneNumberCorrect(phoneField.getText()) == false) {
+            errorMessage += "No valid phone number!\n";
+        }
+        if (check.isPhoneNumberCorrect(faxField.getText()) == false) {
+            errorMessage += "No valid fax number!\n";
+        }
+        if (stateField.getText() == null || stateField.getText().length() == 0) {
+            errorMessage += "No valid state name !\n";
+        }
+        if (zipcodeField.getText() == null || zipcodeField.getText().length() == 0) {
+            errorMessage += "No postal code!\n";
+        }
+        
         if (errorMessage.length() == 0) {
             return true;
         } else {

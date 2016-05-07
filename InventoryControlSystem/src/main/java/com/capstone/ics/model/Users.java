@@ -36,14 +36,7 @@ public class Users implements java.io.Serializable{
     private StringProperty phoneNumber = new SimpleStringProperty(this, "PHONE_NUMBER");
     private StringProperty gender = new SimpleStringProperty(this, "GENDER");
     private StringProperty otherUserDetails = new SimpleStringProperty(this, "OTHER_USER_DETAILS");
-    private StringProperty lastUpdatedBy = new SimpleStringProperty(this, "LAST_UPDATED_BY");
-    private ObjectProperty<Date> lastUpdatedDate = new SimpleObjectProperty<>(this, "LAST_UPDATED_DATE");
-    ;
-    private StringProperty createdBy = new SimpleStringProperty(this, "CREATED_BY");
-    private ObjectProperty<Date> createdDate = new SimpleObjectProperty<>(this, "CREATED_DATE");
 
-    ;
-    
     private UserAddresses address = new UserAddresses();
     private Credentials userCredentials = new Credentials();
 
@@ -55,19 +48,17 @@ public class Users implements java.io.Serializable{
         this.userCredentials = userCredentials;
     }
 
-    public Users(int fkJobTitleCode, String firstName, String lastName, Date birthDate, String emailAddress, String phoneNumber, String gender, Date lastUpdatedDate, String createdBy, Date createdDate, UserAddresses address) {
+    public Users(int fkJobTitleCode, String firstName, String lastName, Date birthDate, String emailAddress, String phoneNumber, String gender,UserAddresses address) {
         setFirstName(firstName);
         setLastName(lastName);
         setBirthDate(birthDate);
         setEmailAddress(emailAddress);
         setPhoneNumber(phoneNumber);
-        setGender(gender);
-        setCreatedBy(createdBy);
-        setCreatedDate(createdDate);
+        setGender(gender);       
         setAddress(address);
     }
 
-    public Users(int fkJobTitleCode, String firstName, String lastName, Date birthDate, String emailAddress, String phoneNumber, String gender, String otherUserDetails, String lastUpdatedBy, Date lastUpdatedDate, String createdBy, Date createdDate, UserAddresses address) {
+    public Users(int fkJobTitleCode, String firstName, String lastName, Date birthDate, String emailAddress, String phoneNumber, String gender, String otherUserDetails, UserAddresses address) {
 
         setFirstName(firstName);
         setLastName(lastName);
@@ -76,10 +67,6 @@ public class Users implements java.io.Serializable{
         setPhoneNumber(phoneNumber);
         setGender(gender);
         setOtherUserDetails(otherUserDetails);
-        setLastUpdatedBy(lastUpdatedBy);
-        setLastUpdatedDate(lastUpdatedDate);
-        setCreatedBy(createdBy);
-        setCreatedDate(createdDate);
         setAddress(address);
     }
 
@@ -192,58 +179,6 @@ public class Users implements java.io.Serializable{
 
     public StringProperty otherDetailsProperty() {
         return this.otherUserDetails;
-    }
-
-    @Column(name = "LAST_UPDATED_BY")
-    public String getLastUpdatedBy() {
-        return lastUpdatedByProperty().get();
-    }
-
-    public void setLastUpdatedBy(String lastUpdatedBy) {
-        this.lastUpdatedBy.set(lastUpdatedBy);
-    }
-
-    public StringProperty lastUpdatedByProperty() {
-        return this.lastUpdatedBy;
-    }
-
-    @Column(name = "LAST_UPDATED_DATE")
-    public Date getLastUpdatedDate() {
-        return lastUpdatedDateProperty().get();
-    }
-
-    public void setLastUpdatedDate(Date lastUpdatedDate) {
-        this.lastUpdatedDate.set(lastUpdatedDate);
-    }
-
-    public ObjectProperty<Date> lastUpdatedDateProperty() {
-        return this.lastUpdatedDate;
-    }
-
-    @Column(name = "CREATED_BY")
-    public String getCreatedBy() {
-        return CreatedByProperty().get();
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy.set(createdBy);
-    }
-
-    public StringProperty CreatedByProperty() {
-        return this.createdBy;
-    }
-
-    @Column(name = "CREATED_DATE")
-    public Date getCreatedDate() {
-        return CreatedDateProperty().get();
-    }
-
-    public ObjectProperty<Date> CreatedDateProperty() {
-        return this.createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate.set(createdDate);
     }
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "users")

@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1100.0" stylesheets="@../styles/Main.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.capstone.ics.controller.MainPanelController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="850.0" stylesheets="@../styles/Main.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.capstone.ics.controller.MainPanelController">
    <top>
       <HBox prefHeight="60.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
@@ -39,7 +39,7 @@
    <bottom>
       <HBox prefHeight="39.0" prefWidth="1195.0" BorderPane.alignment="CENTER">
          <children>
-            <GridPane prefHeight="39.0" prefWidth="632.0">
+            <GridPane prefHeight="39.0" prefWidth="787.0">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="140.0" minWidth="10.0" prefWidth="114.0" />
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="254.0" minWidth="10.0" prefWidth="167.33331298828125" />
@@ -105,14 +105,6 @@
                               <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
                            </HBox.margin>
                         </ImageView>
-                        <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="560.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/Notification.png" />
-                           </image>
-                           <HBox.margin>
-                              <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
-                           </HBox.margin>
-                        </ImageView>
                      </children>
                   </HBox>
                   <HBox layoutX="30.0" layoutY="30.0" prefHeight="250.0" prefWidth="1000.0">
@@ -128,14 +120,6 @@
                         <ImageView fx:id="logModule" fitHeight="150.0" fitWidth="150.0" layoutX="60.0" layoutY="60.0" onMouseClicked="#goToLogManagerWindow" pickOnBounds="true" preserveRatio="true" styleClass="mainFxmlClass">
                            <image>
                               <Image url="@../images/log.png" />
-                           </image>
-                           <HBox.margin>
-                              <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
-                           </HBox.margin>
-                        </ImageView>
-                        <ImageView fx:id="settingImage" fitHeight="150.0" fitWidth="150.0" layoutX="310.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/Settings.png" />
                            </image>
                            <HBox.margin>
                               <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />

@@ -55,10 +55,10 @@ public class SiteDAO implements SiteDaoInterface<Site> {
         ObservableList<Site> observableSitesList;
         Query query = HibernateUtil.getCurrentSession().createQuery("select s from Site s where s.mainOfficeID = 1");
         sites = query.list();
-        for(Site aSite : sites)
-        {
-            System.out.println(aSite.getSiteName());
-        }
+//        for(Site aSite : sites)
+//        {
+//            System.out.println(aSite.getSiteName());
+//        }
         
         observableSitesList = FXCollections.observableArrayList(sites);
         return observableSitesList;

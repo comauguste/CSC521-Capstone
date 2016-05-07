@@ -25,7 +25,7 @@ public class SiteItemsQuantityId  implements java.io.Serializable {
         this.item = item;
     }
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     public Site getSite() {
         return site;
     }
@@ -34,7 +34,7 @@ public class SiteItemsQuantityId  implements java.io.Serializable {
         this.site = site;
     }
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     public InventoryItems getItem() {
         return item;
     }

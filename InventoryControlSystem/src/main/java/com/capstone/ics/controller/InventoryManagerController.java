@@ -19,6 +19,7 @@ import com.capstone.ics.service.InventoryItemsService;
 import com.capstone.ics.service.LogService;
 import com.capstone.ics.util.CurrencyUtil;
 import com.capstone.ics.util.HibernateUtil;
+import com.capstone.ics.util.Validator;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -221,20 +222,32 @@ public class InventoryManagerController {
 
             quantityColumn.setCellFactory(TextFieldTableCell.<SiteItemsQuantity, Number>forTableColumn(new NumberStringConverter()));
             quantityColumn.setOnEditCommit((CellEditEvent<SiteItemsQuantity, Number> q) -> {
+                //System.out.println("Item name:" + item.getItemName());
 
+                //System.out.println("mItem name:" + mItem.getItemName());
                 //Add new quantity to total quantity
                 Integer oldValue, newValue, diff, currentTotal;
-                currentTotal = item.getQuantityInStock();
+                //System.out.println("mItem quantity: " + mItem.getQuantityInStock());
+
+                //System.out.println("item quantity: " + mItem.getQuantityInStock());
+                currentTotal = mItem.getQuantityInStock();
 
                 oldValue = (Integer) q.getOldValue().intValue();
+                // System.out.println("Old Value: "+oldValue);
 
                 updateItemQuantityInRelatedSite(q);
 
                 newValue = (Integer) q.getNewValue().intValue();
+                //System.out.println("New Value: "+newValue);
+
                 diff = newValue - oldValue;
+                //System.out.println("Diff Value: "+diff);
+
                 currentTotal += diff;
-                item.setQuantityInStock(currentTotal);
-                totalQuantityLabel.setText(item.getQuantityInStock().toString());
+
+                //System.out.println("Current total Value: "+currentTotal);
+                mItem.setQuantityInStock(currentTotal);
+                totalQuantityLabel.setText(mItem.getQuantityInStock().toString());
 
             });
 
@@ -249,17 +262,18 @@ public class InventoryManagerController {
         Integer itemId, siteId, itemQuantity;
         itemId = q.getTableView().getItems().get(q.getTablePosition().getRow()).getInventoryItems().getPkItemId();
         siteId = q.getTableView().getItems().get(q.getTablePosition().getRow()).getSite().getPkSiteId();
+
         itemQuantity = q.getNewValue().intValue();
 
         HibernateUtil.openCurrentSessionWithTransaction();
-        InventoryItems sItem = (InventoryItems) HibernateUtil.getCurrentSession().get(InventoryItems.class, itemId);
+        //InventoryItems sItem = (InventoryItems) HibernateUtil.getCurrentSession().get(InventoryItems.class, itemId);
         Site sSite = (Site) HibernateUtil.getCurrentSession().get(Site.class, siteId);
         SiteItemsQuantity itemSite = (SiteItemsQuantity) HibernateUtil.getCurrentSession().get(SiteItemsQuantity.class,
-                new SiteItemsQuantityId(sSite, sItem));
+                new SiteItemsQuantityId(sSite, mItem));
 
-        itemSite.setItemQuantity(itemQuantity);
         itemSite.setSite(sSite);
-        itemSite.setInventoryItems(sItem);
+        itemSite.setInventoryItems(mItem);
+        itemSite.setItemQuantity(itemQuantity);
 
         HibernateUtil.getCurrentSession().update(itemSite);
         HibernateUtil.closeCurrentSessionWithTransaction();
@@ -281,43 +295,48 @@ public class InventoryManagerController {
     //Need to be changed
     @FXML
     private void saveOrUpdateItem() {
-
-        if (mItem != null) {
-            InventoryItems item = itemTable.getSelectionModel().getSelectedItem();
-            //Update 
-            String actionPerformed = "Update Product";
-            setItem(item);
-            itemsService.update(mItem);
-            logIt(mItem, actionPerformed);
-        } else {
-            //New Item
-            mItem = new InventoryItems();
-            if (isInputValid()) {
-                setItem(mItem);
-
-                String actionPerformed = "New Product";
-
-                Users currentLoggedUser = loggedUser.getUsers();
-                mItem.setUsers(currentLoggedUser);
-
-                ObservableList<Site> branches = companyService.getBranchAsObservableList();
-
-                for (Site aSite : branches) {
-                    SiteItemsQuantity siteItem = new SiteItemsQuantity();
-                    siteItem.setItemQuantity(0);
-                    siteItem.setInventoryItems(mItem);
-                    siteItem.setSite(aSite);
-                    mItem.addSiteItemsQuantities(siteItem);
-                }
-
-                itemsService.save(mItem);
+        if (isInputValid()) {
+            if (mItem != null) {
+                InventoryItems item = itemTable.getSelectionModel().getSelectedItem();
+                //Update 
+                String actionPerformed = "Update Product";
+                setItem(item);
+                mItem.setCreatedDate(new Date());
+                mItem.setCreatedBy(getUserFirstAndLastName(loggedUser));
+                itemsService.update(mItem);
                 logIt(mItem, actionPerformed);
-                itemsService.getItemsData().add(mItem);
-                saveProductText.setVisible(false);
-                warehouseTable.setVisible(true);
-                totalQuantityLabel.setVisible(true);
-                warehouseTable.setItems(itemsService.getItemLocationAndQuantityAsObservableList(mItem.getPkItemId()));
+            } else {
+                //New Item
+                mItem = new InventoryItems();
+                if (isInputValid()) {
+                    setItem(mItem);
 
+                    String actionPerformed = "New Product";
+
+                    Users currentLoggedUser = loggedUser.getUsers();
+                    mItem.setUsers(currentLoggedUser);
+
+                    ObservableList<Site> branches = companyService.getBranchAsObservableList();
+
+                    for (Site aSite : branches) {
+                        SiteItemsQuantity siteItem = new SiteItemsQuantity();
+                        siteItem.setItemQuantity(0);
+                        siteItem.setInventoryItems(mItem);
+                        siteItem.setSite(aSite);
+                        mItem.addSiteItemsQuantities(siteItem);
+                    }
+                    mItem.setCreatedDate(new Date());
+                    mItem.setCreatedBy(getUserFirstAndLastName(loggedUser));
+                    
+                    itemsService.save(mItem);
+                    logIt(mItem, actionPerformed);
+                    itemsService.getItemsData().add(mItem);
+                    saveProductText.setVisible(false);
+                    warehouseTable.setVisible(true);
+                    totalQuantityLabel.setVisible(true);
+                    warehouseTable.setItems(itemsService.getItemLocationAndQuantityAsObservableList(mItem.getPkItemId()));
+
+                }
             }
         }
     }
@@ -378,15 +397,29 @@ public class InventoryManagerController {
 
     private boolean isInputValid() {
         String errorMessage = "";
+        Validator check = new Validator();
 
         if (itemNameField.getText() == null || itemNameField.getText().length() == 0) {
-            errorMessage += "No item name!\n";
+            errorMessage += "No valid item name!\n";
         }
-        // Do not forget to complete this part
+        if (descriptionField.getText() == null || descriptionField.getText().length() == 0) {
+            errorMessage += "No description provided for this item!\n";
+        }
+        if (check.isCurrencyCorrect(costField.getText()) == false) {
+            errorMessage += "No valid cost provided! Cost format(xxxxxx.xx)\n";
+        }
+        if (check.isCurrencyCorrect(sellingPriceField.getText()) == false) {
+            errorMessage += "No valid selling price provided! Price format(xxxxxx.xx)\n";
+        }
+        if (reorderTresholdField.getText() == null || reorderTresholdField.getText().length() == 0) {
+            errorMessage += "No valid reorder threshold provided !\n";
+        }
+
         if (errorMessage.length() == 0) {
             return true;
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
+            //alert.initOwner(mDialogStage);
             alert.setTitle("Invalid Fields");
             alert.setHeaderText("Please correct invalid fields");
             alert.setContentText(errorMessage);

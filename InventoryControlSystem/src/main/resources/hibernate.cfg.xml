@@ -4,9 +4,9 @@
   <session-factory>
     <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
     <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-    <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/inventory_system?useSSL=false</property>
-    <property name="hibernate.connection.username">comauguste</property>
-    <property name="hibernate.connection.password">Journey1</property>
+    <property name="hibernate.connection.url">jdbc:mysql://173.244.1.35/S9269025</property>
+    <property name="hibernate.connection.username">S9269025</property>
+    <property name="hibernate.connection.password">New2016</property>
     <property name="hibernate.show_sql">true</property>
     <property name="hibernate.query.factory_class">org.hibernate.hql.internal.classic.ClassicQueryTranslatorFactory</property>
     <property name="hibernate.format_sql">false</property>

@@ -120,6 +120,7 @@ public class UsersManagerController {
 
         boolean okClicked = showUserEditDialog(tempUser, tempAddresses, tempCredentials);
         if (okClicked) {
+            
             userService.getUsersData().add(tempUser);
             //TO complete later 
             tempAddresses.setUsers(tempUser);

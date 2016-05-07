@@ -47,9 +47,7 @@ public class MainPanelController {
     }
 
     private void managerUserAccess() {
-        if (currentLoggedUser.isIsAdministrator() == false) {
-            settingImage.setVisible(false);
-        }
+
         if (currentLoggedUser.isAccessLogModule() == false) {
             logModule.setVisible(false);
         }
@@ -74,14 +72,11 @@ public class MainPanelController {
         if (currentLoggedUser.isIsAdministrator() == true) {
             newStage.nextStage(userModuleStage, "Users Module Manager");
             onMouseClicked.consume();
-        }
-        else
-        {
+        } else {
             newStage.nextStage(regularUserModuleStage, "Regular User Profil Page");
             onMouseClicked.consume();
         }
 
-        
     }
 
     @FXML
@@ -101,7 +96,7 @@ public class MainPanelController {
         newStage.nextStage(logModuleStage, "Log Module Manager");
         onMouseClicked.consume();
     }
-    
+
     @FXML
     private void goToReportWindow(Event onMouseClicked) {
         newStage.nextStage(reportPage, "Report Module Manager");

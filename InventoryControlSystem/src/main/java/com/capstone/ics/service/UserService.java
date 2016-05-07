@@ -80,9 +80,9 @@ public class UserService {
     }
     
     
-    public static void main(String[] args) {
-        UserService test = new UserService();
-        Users aUser = test.findById(1);
-        System.out.println(aUser.getFirstName());
-    }
+//    public static void main(String[] args) {
+//        UserService test = new UserService();
+//        Users aUser = test.findById(1);
+//        System.out.println(aUser.getFirstName());
+//    }
 }
